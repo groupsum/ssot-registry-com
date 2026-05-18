@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ssot-registry-com
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, docker]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm install
+      - run: npm run check
+      - run: npm run deploy:dry-run
+      - run: docker compose -f docker-compose.yaml up -d --build --force-recreate --no-deps ssot-registry-com

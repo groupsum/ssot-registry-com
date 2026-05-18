@@ -1,0 +1,10 @@
+services:
+  ssot-registry-com:
+    build: .
+    container_name: ssot-registry-com
+    restart: unless-stopped
+    labels:
+      site.host: ssot-registry.com
+      site.kind: mdwrk-lander
+    expose:
+      - "80"

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "site": "ssot-registry.com",
+  "repository": "groupsum/ssot-registry-com",
+  "orchestrator": "npmctl",
+  "dns": {
+    "provider": "namecheap",
+    "zone": "ssot-registry.com",
+    "records": [
+      {
+        "type": "A",
+        "host": "@",
+        "value": "SITE_SERVER_IP",
+        "ttl": 300
+      },
+      {
+        "type": "CNAME",
+        "host": "www",
+        "value": "ssot-registry.com",
+        "ttl": 300
+      }
+    ]
+  },
+  "deploy": {
+    "target": "self-hosted-docker",
+    "service": "ssot-registry-com",
+    "composeFile": "docker-compose.yaml"
+  }
+}
