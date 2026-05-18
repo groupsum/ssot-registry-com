@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "site": "ssot-registry.com",
   "repository": "groupsum/ssot-registry-com",
-  "orchestrator": "npmctl",
+  "orchestrator": "npmctl-pypi",
   "dns": {
     "provider": "namecheap",
     "zone": "ssot-registry.com",
@@ -19,7 +19,8 @@
         "value": "ssot-registry.com",
         "ttl": 300
       }
-    ]
+    ],
+    "providerPackage": "npmctl-namecheap"
   },
   "deploy": {
     "target": "self-hosted-docker",
@@ -29,5 +30,25 @@
       "provider": "nginx-proxy-manager",
       "apiEndpoint": "https://nginx.bz23.xyz/"
     }
+  },
+  "npmctl": {
+    "package": "npmctl",
+    "dnsProviderPackage": "npmctl-namecheap",
+    "installCommand": "python -m pip install --upgrade npmctl npmctl-namecheap",
+    "proxyManagerApiEndpoint": "https://nginx.bz23.xyz/"
+  },
+  "commands": {
+    "install": "npm ci",
+    "check": "npm run check",
+    "build": "npm run build",
+    "npmctl:install": "python -m pip install --upgrade npmctl npmctl-namecheap",
+    "npmctl:validate": "npmctl validate desired-state",
+    "npmctl:schema": "npmctl schema check",
+    "dns:doctor": "npmctl dns doctor --provider namecheap",
+    "dns:plan": "npmctl plan desired-state/dns.yaml --owner ssot-registry-com",
+    "dns:apply": "npmctl apply desired-state/dns.yaml --owner ssot-registry-com",
+    "proxy:validate": "npmctl validate desired-state/proxy.yaml",
+    "proxy:plan": "npmctl plan desired-state/proxy.yaml --owner ssot-registry-com",
+    "proxy:apply": "npmctl apply desired-state/proxy.yaml --owner ssot-registry-com"
   }
 }

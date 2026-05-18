@@ -11,13 +11,14 @@
     "check": "npm --prefix packages/site-content-pack run test && npm run build && tsx tests/site-discovery-smoke.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "docker:build": "docker compose build ssot-registry-com",
-    "dns:plan": "node scripts/namecheap-dns.mjs --plan",
-    "dns:apply": "node scripts/namecheap-dns.mjs --apply",
+    "dns:plan": "npmctl plan desired-state/dns.yaml --owner ssot-registry-com",
+    "dns:apply": "npmctl apply desired-state/dns.yaml --owner ssot-registry-com",
     "deploy:dry-run": "node scripts/deploy.mjs --dry-run",
     "deploy": "docker compose -f docker-compose.yaml up -d --build --force-recreate --no-deps ssot-registry-com",
-    "npmctl:install": "npmctl install",
-    "npmctl:check": "npmctl check",
-    "npmctl:build": "npmctl build"
+    "dns:doctor": "npmctl dns doctor --provider namecheap",
+    "proxy:validate": "npmctl validate desired-state/proxy.yaml",
+    "proxy:plan": "npmctl plan desired-state/proxy.yaml --owner ssot-registry-com",
+    "proxy:apply": "npmctl apply desired-state/proxy.yaml --owner ssot-registry-com"
   },
   "dependencies": {
     "@mdwrk/lander-core": "^0.1.2",
