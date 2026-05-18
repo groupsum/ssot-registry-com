@@ -24,6 +24,7 @@ jobs:
       NAMECHEAP_API_KEY: ${{ secrets.NAMECHEAP_API_KEY }}
       NAMECHEAP_USERNAME: ${{ secrets.NAMECHEAP_USERNAME }}
       NAMECHEAP_CLIENT_IP: ${{ secrets.NAMECHEAP_CLIENT_IP }}
+      SITE_SERVER_IP: ${{ secrets.SITE_SERVER_IP || secrets.SERVER_IP || secrets.DEPLOY_SERVER_IP }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,13 +32,31 @@ jobs:
           python-version: '3.12'
       - name: Install npmctl from PyPI
         run: python -m pip install --upgrade npmctl npmctl-namecheap
+      - name: Render DNS desired state from secrets
+        run: |
+          test -n "$SITE_SERVER_IP"
+          mkdir -p .generated/desired-state
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          source = Path("desired-state/dns.yaml")
+          target = Path(".generated/desired-state/dns.yaml")
+          target.write_text(
+              source.read_text(encoding="utf-8").replace(
+                  "SITE_SERVER_IP",
+                  os.environ["SITE_SERVER_IP"],
+              ),
+              encoding="utf-8",
+          )
+          PY
       - name: Validate desired DNS state
-        run: npmctl validate desired-state/dns.yaml
+        run: npmctl validate .generated/desired-state/dns.yaml
       - name: Validate Namecheap provider
         run: npmctl dns doctor --provider namecheap
       - name: Plan Namecheap DNS with npmctl
         if: ${{ github.event.inputs.mode != 'apply' }}
-        run: npmctl plan desired-state/dns.yaml --owner ssot-registry-com
+        run: npmctl plan .generated/desired-state/dns.yaml --owner ssot-registry-com
       - name: Apply Namecheap DNS with npmctl
         if: ${{ github.event.inputs.mode == 'apply' }}
-        run: npmctl apply desired-state/dns.yaml --owner ssot-registry-com
+        run: npmctl apply .generated/desired-state/dns.yaml --owner ssot-registry-com
