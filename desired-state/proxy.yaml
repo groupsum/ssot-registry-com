@@ -8,10 +8,12 @@ proxy_hosts:
     forward_scheme: http
     forward_host: ssot-registry-com
     forward_port: 80
+    certificate_id: 187
     ssl_forced: 1
     http2_support: 1
     allow_websocket_upgrade: 1
     block_exploits: 1
+    hsts_enabled: 1
     meta:
       managed_by: npmctl
       owner: ssot-registry-com
