@@ -6,12 +6,22 @@ dns_records:
     zone: ssot-registry.com
     type: A
     name: "@"
-    value: SITE_SERVER_IP
+    value: __SITE_SERVER_IP__
     ttl: 300
     meta:
       managed_by: npmctl
       owner: ssot-registry-com
       resource_id: dns.ssot-registry-com.root-a
+  - provider: namecheap
+    zone: ssot-registry.com
+    type: A
+    name: "*"
+    value: __SITE_SERVER_IP__
+    ttl: 300
+    meta:
+      managed_by: npmctl
+      owner: ssot-registry-com
+      resource_id: dns.ssot-registry-com.wildcard-a
   - provider: namecheap
     zone: ssot-registry.com
     type: CNAME
