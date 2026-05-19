@@ -10,7 +10,7 @@
       {
         "type": "A",
         "host": "@",
-        "value": "SITE_SERVER_IP",
+        "value": "SITE_SERVER_IP_SECRET",
         "ttl": 300
       },
       {
