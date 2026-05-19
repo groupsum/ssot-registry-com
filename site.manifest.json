@@ -1,34 +1,34 @@
 {
-    "host":  "ssot-registry.com",
-    "zone":  "ssot-registry.com",
-    "repository":  "groupsum/ssot-registry-com",
-    "siteKind":  "mdwrk-lander",
-    "orchestrator":  "npmctl",
-    "dnsProvider":  "namecheap",
-    "deployment":  "self-hosted-docker",
-    "dockerService":  "ssot-registry-com",
-    "records":  [
-                    {
-                        "type":  "A",
-                        "host":  "@",
-                        "value":  "SITE_SERVER_IP_SECRET",
-                        "ttl":  300
-                    },
-                    {
-                        "type":  "A",
-                        "host":  "*",
-                        "value":  "SITE_SERVER_IP_SECRET",
-                        "ttl":  300
-                    },
-                    {
-                        "type":  "CNAME",
-                        "host":  "www",
-                        "value":  "ssot-registry.com",
-                        "ttl":  300
-                    }
-                ],
-    "proxyManager":  {
-                         "provider":  "nginx-proxy-manager",
-                         "apiEndpoint":  "NPM_BASE_URL_SECRET"
-                     }
+  "host": "ssot-registry.com",
+  "zone": "ssot-registry.com",
+  "repository": "groupsum/ssot-registry-com",
+  "siteKind": "mdwrk-lander",
+  "orchestrator": "npmctl",
+  "dnsProvider": "namecheap",
+  "deployment": "self-hosted-docker",
+  "dockerService": "ssot-registry-com",
+  "records": [
+    {
+      "type": "A",
+      "host": "@",
+      "value": "SITE_SERVER_IP_SECRET",
+      "ttl": 300
+    },
+    {
+      "type": "A",
+      "host": "*.ssot-registry.com",
+      "value": "SITE_SERVER_IP_SECRET",
+      "ttl": 300
+    },
+    {
+      "type": "CNAME",
+      "host": "www",
+      "value": "ssot-registry.com",
+      "ttl": 300
+    }
+  ],
+  "proxyManager": {
+    "provider": "nginx-proxy-manager",
+    "apiEndpoint": "NPM_BASE_URL_SECRET"
+  }
 }
