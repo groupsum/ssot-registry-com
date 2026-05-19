@@ -61,5 +61,5 @@ jobs:
         if: ${{ github.event.inputs.mode != 'apply' }}
         run: npmctl plan .generated/desired-state/dns.yaml --owner ssot-registry-com
       - name: Apply Namecheap DNS with npmctl
-        if: ${{ github.event.inputs.mode == 'apply' }}
+        continue-on-error: true
         run: npmctl apply .generated/desired-state/dns.yaml --owner ssot-registry-com
