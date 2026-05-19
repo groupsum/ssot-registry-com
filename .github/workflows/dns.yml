@@ -54,6 +54,9 @@ jobs:
         run: npmctl validate .generated/desired-state/dns.yaml
       - name: Validate Namecheap provider
         run: npmctl dns doctor --provider namecheap
+      - name: Normalize Namecheap DNS records
+        if: ${{ github.event.inputs.mode == 'apply' }}
+        run: python scripts/namecheap-normalize-dns.py .tmp/dns.yaml
       - name: Plan Namecheap DNS with npmctl
         if: ${{ github.event.inputs.mode != 'apply' }}
         run: npmctl plan .generated/desired-state/dns.yaml --owner ssot-registry-com
