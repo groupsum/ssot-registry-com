@@ -44,7 +44,7 @@ jobs:
           target = Path(".generated/desired-state/dns.yaml")
           target.write_text(
               source.read_text(encoding="utf-8").replace(
-                  "SITE_SERVER_IP",
+                  "__SITE_SERVER_IP__",
                   os.environ["SITE_SERVER_IP"],
               ),
               encoding="utf-8",
