@@ -283,11 +283,14 @@ export const METADATA_FILES = {
   robots: `User-agent: *
 Allow: /
 Sitemap: https://ssot-registry.com/sitemap.xml
-Sitemap: https://ssot-registry.com/sitemap-packages.xml
+Sitemap: https://ssot-registry.com/sitemap-core.xml
 Sitemap: https://ssot-registry.com/sitemap-workflows.xml
-Sitemap: https://ssot-registry.com/sitemap-learn.xml
-Sitemap: https://ssot-registry.com/sitemap-api-reference.xml
-Sitemap: https://ssot-registry.com/sitemap-content.xml`,
+Sitemap: https://ssot-registry.com/sitemap-packages.xml
+Sitemap: https://ssot-registry.com/sitemap-proof-chain.xml
+Sitemap: https://ssot-registry.com/sitemap-governance-packs.xml
+Sitemap: https://ssot-registry.com/sitemap-registry.xml
+Sitemap: https://ssot-registry.com/sitemap-metadata.xml
+Sitemap: https://ssot-registry.com/sitemap-plugins.xml`,
 
   llmsTxt: `# SSOT Registry Product Portfolio Corpus
 
@@ -308,7 +311,7 @@ An AI-friendly directory of the SSOT Registry release-governance toolchain and e
   sitemap: `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-packages.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-core.xml</loc>
     <lastmod>2026-06-29T22:48:45-07:00</lastmod>
   </sitemap>
   <sitemap>
@@ -316,15 +319,27 @@ An AI-friendly directory of the SSOT Registry release-governance toolchain and e
     <lastmod>2026-06-29T22:48:45-07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-learn.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-packages.xml</loc>
     <lastmod>2026-06-29T22:48:45-07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-api-reference.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-proof-chain.xml</loc>
     <lastmod>2026-06-29T22:48:45-07:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-content.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-governance-packs.xml</loc>
+    <lastmod>2026-06-29T22:48:45-07:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-registry.xml</loc>
+    <lastmod>2026-06-29T22:48:45-07:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-metadata.xml</loc>
+    <lastmod>2026-06-29T22:48:45-07:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-plugins.xml</loc>
     <lastmod>2026-06-29T22:48:45-07:00</lastmod>
   </sitemap>
 </sitemapindex>`,

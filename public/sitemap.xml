@@ -2,11 +2,31 @@
 <?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-pages.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-core.xml</loc>
     <lastmod>2026-06-30T00:00:00+00:00</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://ssot-registry.com/sitemap-governance.xml</loc>
+    <loc>https://ssot-registry.com/sitemap-workflows.xml</loc>
+    <lastmod>2026-06-30T00:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-packages.xml</loc>
+    <lastmod>2026-06-30T00:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-proof-chain.xml</loc>
+    <lastmod>2026-06-30T00:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-registry.xml</loc>
+    <lastmod>2026-06-30T00:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-metadata.xml</loc>
+    <lastmod>2026-06-30T00:00:00+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://ssot-registry.com/sitemap-governance-packs.xml</loc>
     <lastmod>2026-06-30T00:00:00+00:00</lastmod>
   </sitemap>
   <sitemap>

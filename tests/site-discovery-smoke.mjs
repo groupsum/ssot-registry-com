@@ -6,8 +6,13 @@ const publicDir = resolve("public");
 const distDir = resolve("dist");
 const requiredArtifacts = [
   "sitemap.xml",
-  "sitemap-pages.xml",
-  "sitemap-governance.xml",
+  "sitemap-core.xml",
+  "sitemap-workflows.xml",
+  "sitemap-packages.xml",
+  "sitemap-proof-chain.xml",
+  "sitemap-governance-packs.xml",
+  "sitemap-registry.xml",
+  "sitemap-metadata.xml",
   "sitemap-plugins.xml",
   "sitemap.xsl",
   "robots.txt",
@@ -27,8 +32,26 @@ const robots = readFileSync(resolve(publicDir, "robots.txt"), "utf8");
 assert.match(sitemap, /<sitemapindex/);
 assert.match(robots, /Sitemap: https:\/\/ssot-registry\.com\/sitemap\.xml/);
 
-const pages = readFileSync(resolve(publicDir, "sitemap-pages.xml"), "utf8");
-for (const route of ["/", "/workflows", "/packages", "/proof-chain", "/governance-packs", "/registry-browser", "/metadata-hub", "/plugins"]) {
-  const url = route === "/" ? "https://ssot-registry.com/" : `https://ssot-registry.com${route}`;
-  assert.match(pages, new RegExp(`<loc>${url}</loc>`));
+for (const artifact of requiredArtifacts.filter((name) => name.startsWith("sitemap-") && name.endsWith(".xml"))) {
+  assert.match(sitemap, new RegExp(`<loc>https://ssot-registry\\.com/${artifact}</loc>`));
+}
+
+const routeAssertions = {
+  "sitemap-core.xml": ["/"],
+  "sitemap-workflows.xml": ["/workflows"],
+  "sitemap-packages.xml": ["/packages"],
+  "sitemap-proof-chain.xml": ["/proof-chain"],
+  "sitemap-governance-packs.xml": ["/governance-packs", "/governance-packs/seo-aeo-aieo-governance-pack"],
+  "sitemap-registry.xml": ["/registry-browser"],
+  "sitemap-metadata.xml": ["/metadata-hub"],
+  "sitemap-plugins.xml": ["/plugins", "/plugin/ssot-cli-codex"],
+};
+
+for (const [artifact, routes] of Object.entries(routeAssertions)) {
+  const sitemapBody = readFileSync(resolve(publicDir, artifact), "utf8");
+  assert.match(sitemapBody, /<urlset/);
+  for (const route of routes) {
+    const url = route === "/" ? "https://ssot-registry.com/" : `https://ssot-registry.com${route}`;
+    assert.match(sitemapBody, new RegExp(`<loc>${url}</loc>`));
+  }
 }
