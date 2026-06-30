@@ -67,7 +67,7 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
             </div>
             <div className="flex items-center gap-3 pl-11">
               <a
-                href={`https://github.com/orgs/groupsum/discussions/new?category=q-a&title=Feedback+on+${activeItem.id}`}
+                href="https://github.com/orgs/groupsum/discussions/new?category=general&title=%3C...%3E"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white border border-sky-200 hover:border-sky-300 text-xs font-bold text-sky-700 hover:text-sky-800 shadow-2xs transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
