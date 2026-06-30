@@ -1,106 +1,56 @@
-import { LanderPage } from "@mdwrk/lander-react";
-import { ssotRegistrySite } from "../packages/site-content-pack/src/index";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-const normalizedCanonicalRoot = ssotRegistrySite.product.canonicalUrl.replace(/\/+$/, "");
-const normalizePath = (value: string) => {
-  const path = value === "" ? "/" : value.split(/[?#]/)[0] ?? "/";
-  if (path === "/" || path === "") return "/";
-  return `/${path.replace(/^\/+|\/+$/g, "")}/`;
-};
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
-function compilePage(page: (typeof ssotRegistrySite.pages)[number]) {
-  const path = normalizePath(page.slug);
-  return {
-    ...page,
-    path,
-    canonicalUrl: `${normalizedCanonicalRoot}${path}`,
-    breadcrumbs: breadcrumbItems(page.slug),
-    internalLinks: [],
-    wordCount: wordCount([page.title, page.description, page.intro, JSON.stringify(page.sections)].join(" ")),
-    componentIntents: [],
-    schemaIntents: [],
-  };
-}
+// Page Imports
+import Home from './pages/Home';
+import Workflows from './pages/Workflows';
+import Packages from './pages/Packages';
+import ProofModel from './pages/ProofModel';
+import GovernancePacks from './pages/GovernancePacks';
+import GovernancePackDetail from './pages/GovernancePackDetail';
+import RegistryBrowser from './pages/RegistryBrowser';
+import MetadataHub from './pages/MetadataHub';
+import Plugins from './pages/Plugins';
+import PluginDetail from './pages/PluginDetail';
 
-function currentPage() {
-  const browserPath = typeof window === "undefined" ? "/" : window.location.pathname;
-  const path = normalizePath(browserPath);
-  const page = ssotRegistrySite.pages.find((candidate) => normalizePath(candidate.slug) === path) ?? ssotRegistrySite.pages[0];
-  if (!page) {
-    throw new Error("SSOT Registry content pack did not define a routable page.");
-  }
-  return compilePage(page);
-}
-
-function siteForPage(page: ReturnType<typeof compilePage>) {
-  return {
-    ...ssotRegistrySite,
-    pages: [page],
-    pageByPath: new Map([[page.path, page]]),
-    diagnostics: [],
-  };
-}
-
-function breadcrumbItems(slug: string) {
-  const segments = normalizePath(slug).split("/").filter(Boolean);
-  const items = [{ label: ssotRegistrySite.product.name, href: "/" }];
-  let href = "";
-  for (const segment of segments) {
-    href = `${href}/${segment}`;
-    items.push({ label: titleCase(segment), href: `${href}/` });
-  }
-  return items;
-}
-
-function titleCase(value: string) {
-  return value.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function wordCount(value: string) {
-  return value.trim().split(/\s+/).filter(Boolean).length;
-}
-
-export function App() {
-  const page = currentPage();
-  const compiledSite = siteForPage(page);
+export default function App() {
   return (
-    <div
-      className="site-shell"
-      data-page-path={page.path}
-      data-lander-theme={ssotRegistrySite.theme?.mode === "dark" ? "lander-dark" : "lander-light"}
-    >
-      <header className="site-header">
-        <div className="site-nav">
-          <a className="site-brand" href="/" aria-label="SSOT Registry home">
-            <span className="site-brand-mark" aria-hidden="true">SR</span>
-            <span className="site-brand-text">
-              <span className="site-brand-name">{ssotRegistrySite.product.name}</span>
-              <span className="site-brand-tagline">{ssotRegistrySite.product.tagline}</span>
-            </span>
-          </a>
-          <nav className="site-nav-links" aria-label="Primary navigation">
-            {ssotRegistrySite.nav?.primary.map((item) => (
-              <a key={item.href} href={item.href}>{item.label}</a>
-            ))}
-          </nav>
-          {ssotRegistrySite.nav?.cta ? (
-            <a className="site-nav-cta" href={ssotRegistrySite.nav.cta.href}>
-              {ssotRegistrySite.nav.cta.label}
-            </a>
-          ) : null}
-        </div>
-      </header>
-      <main id="main-content" className="site-main">
-        <LanderPage site={compiledSite as any} page={page as any} />
-      </main>
-      <footer className="site-footer">
-        <p>{ssotRegistrySite.footer?.note}</p>
-        <nav aria-label="Footer links">
-          {ssotRegistrySite.footer?.links?.map((item) => (
-            <a key={item.href} href={item.href}>{item.label}</a>
-          ))}
-        </nav>
-      </footer>
-    </div>
+    <Router>
+      <ScrollToTop />
+      <div className="flex min-h-screen flex-col bg-white text-zinc-900">
+        {/* Navigation Header */}
+        <Navbar />
+
+        {/* Primary Page Slots */}
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/workflows" element={<Workflows />} />
+            <Route path="/packages" element={<Packages />} />
+            <Route path="/proof-chain" element={<ProofModel />} />
+            <Route path="/proof-model" element={<Navigate to="/proof-chain" replace />} />
+            <Route path="/governance-packs" element={<GovernancePacks />} />
+            <Route path="/governance-packs/:slug" element={<GovernancePackDetail />} />
+            <Route path="/registry-browser" element={<RegistryBrowser />} />
+            <Route path="/corpus-explorer" element={<Navigate to="/registry-browser" replace />} />
+            <Route path="/metadata-hub" element={<MetadataHub />} />
+            <Route path="/plugins" element={<Plugins />} />
+            <Route path="/plugin/:pluginSlug" element={<PluginDetail />} />
+            <Route path="/plguin/:pluginSlug" element={<Navigate to="/plugin/:pluginSlug" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+
+        {/* Global Footer */}
+        <Footer />
+      </div>
+    </Router>
   );
 }

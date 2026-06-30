@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "ssot-registry-browser-content.v1",
+  "generatedAt": "2026-06-30T11:53:52.610Z",
+  "summary": {
+    "title": "SSOT Registry Governance Browser Content",
+    "description": "Generated content for a browser that displays SSOT Registry's own governance and the downstream ADR/SPEC templates shipped by ssot-contracts, including merged YAML bodies for technical marketing reuse.",
+    "totalEntities": 3054,
+    "ownDocumentCount": 189,
+    "downstreamTemplateCount": 80,
+    "publishedReleaseCount": 16,
+    "activeReleaseId": "rel:graph.lineage-cli-current-viewer-payload.2026-06-29"
+  },
+  "decisionDocuments": [
+    {
+      "id": "ADR-0001",
+      "title": "Canonical registry is a single JSON document",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The only authored machine-readable source of truth is `.ssot/registry.json`.",
+      "decision": "Adopt a single JSON document under `.ssot/registry.json` as the canonical registry.",
+      "consequences": "All tooling and validators must read and write exclusively to this file to prevent split-brain conditions."
+    },
+    {
+      "id": "ADR-0002",
+      "title": "Features are the targetable units",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Features are the only targetable implementation units. There is no separate `targets[]` section.",
+      "decision": "Use features as the atomic unit of planning, implementation, and verification.",
+      "consequences": "No target scopes may be established outside of registered feature rows."
+    },
+    {
+      "id": "ADR-0003",
+      "title": "Issues are plannable work items",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Issues and tickets can be planned as current, next, future, explicit, backlog, or out-of-bounds, but they are not substitute targets for features.",
+      "decision": "Map plannable issues to features to represent delivery status.",
+      "consequences": "Verification and gating are evaluated against features, not individual ticket status."
+    },
+    {
+      "id": "ADR-0004",
+      "title": "Entity-centric registry with a derived graph export",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The canonical registry remains entity-centric JSON with explicit references. Graph exports, lineage views, DOT, SVG, and HTML are derived projections from canonical registry truth.",
+      "decision": "Graph projections shall distinguish canonical registry relationships from derived convenience relationships.",
+      "consequences": "Orphan evidence, claims without supporting evidence, and compatibility mirror mismatches shall be visible as graph diagnostics."
+    },
+    {
+      "id": "ADR-0005",
+      "title": "Normalized prefixed IDs",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Every first-class entity uses a normalized prefixed ID.",
+      "decision": "Enforce strict ID prefix constraints (e.g., adr:, spc:, clm:, evd:) across the entire schema.",
+      "consequences": "Prevents collision and allows instant static analysis of node types."
+    },
+    {
+      "id": "ADR-0006",
+      "title": "Claim status and claim tier are orthogonal",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The groupsum/ssot-registry repo's claim status expresses lifecycle progression. Claim tier expresses assurance strength.",
+      "decision": "Discouple status from tier. Claim status tracks pipeline flow; claim tier tracks verification depth.",
+      "consequences": "Allows evaluating high-status claims that are locked to low-assurance thresholds."
+    },
+    {
+      "id": "ADR-0007",
+      "title": "Feature implementation state is separate from lifecycle state",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "`implementation_status` and `lifecycle.stage` are distinct fields.",
+      "decision": "Separately track whether code is physically written vs whether the capability is supported.",
+      "consequences": "Features can be deprecating or obsolete while still retaining their implemented code on disk."
+    },
+    {
+      "id": "ADR-0008",
+      "title": "Immutable boundary and release snapshots",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Frozen boundaries and promoted/published releases emit immutable snapshots with hashes.",
+      "decision": "Hash all linked entities, docs, and tests when locking a boundary or release.",
+      "consequences": "Gives auditors a tamper-proof receipt that fails validation if any component drifts."
+    },
+    {
+      "id": "ADR-0009",
+      "title": "Fail-closed guards",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Validation, certification, promotion, publication, and lifecycle transitions refuse to proceed on guard violations.",
+      "decision": "Abort any state mutations or pipeline progressions if a single validation check fails.",
+      "consequences": "Guarantees that an invalid registry never reaches production or gets committed to git."
+    },
+    {
+      "id": "ADR-0010",
+      "title": "Generated projections are non-canonical",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "In the upstream `ssot-registry` repository, canonical governance documents are the `ssot-core` ADRs and specs authored under `.ssot/`.",
+      "decision": "Do not treat generated reports, sitemaps, or graphs as the source of truth.",
+      "consequences": "Projections may be safely overwritten or regenerated without losing history."
+    },
+    {
+      "id": "ADR-0011",
+      "title": "Explicit schema versioning",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Breaking schema changes increment `schema_version` and require migration.",
+      "decision": "Lock schema versions and require migrations for any modifications to the JSON SOT layout.",
+      "consequences": "Ensures backward compatibility and lets older clients reject newer registries safely."
+    },
+    {
+      "id": "ADR-0012",
+      "title": "Portable SSOT core with repo-specific evidence adapters",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The SSOT core contract governs and validates the registry graph. Repository-specific evidence generation is implemented outside the core (or through adapters) per repository.",
+      "decision": "Decouple core validation from local test runners.",
+      "consequences": "Enables the core engine to validate proof links regardless of whether tests are run via pytest, vitest, or bash."
+    },
+    {
+      "id": "ADR-0013",
+      "title": "Enforce max path and filename lengths under `.ssot`",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Files under `.ssot` MUST respect these limits: Maximum relative path length: 240, Maximum filename length: 120.",
+      "decision": "Enforce path length limits during validation.",
+      "consequences": "Ensures full cross-platform compatibility across Windows, Linux, and macOS."
+    },
+    {
+      "id": "ADR-0014",
+      "title": "Profiles are reusable feature bundles with derived pass status",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The registry needed an entity between atomic features and release boundaries.",
+      "decision": "Introduce a first-class `profiles` entity that bundles features and nested profiles.",
+      "consequences": "Enables reusable capability groupings and composite compliance reviews."
+    },
+    {
+      "id": "ADR-0500",
+      "title": "Monorepo package topology under `pkgs/`",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "All publishable packages SHALL live under `pkgs/`.",
+      "decision": "Organize publishable packages in monorepo directories.",
+      "consequences": "Improves project structure and dependency resolution."
+    },
+    {
+      "id": "ADR-0506",
+      "title": "Hybrid package versioning policy",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Python package versioning SHALL follow a hybrid model.",
+      "decision": "Keep core library packages in lockstep versioning; allow CLI/TUI to version independently.",
+      "consequences": "Developers can update user surfaces without publishing breaking database changes."
+    },
+    {
+      "id": "ADR-0510",
+      "title": "Govern migration paths as explicit schema edges",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Migration support SHALL be represented as explicit source-to-target schema edges.",
+      "decision": "Define migrations as explicit directed edges with verification tests.",
+      "consequences": "Ensures every historical version has a verified upgrade path to current schemas."
+    },
+    {
+      "id": "ADR-0512",
+      "title": "Assurance-language ceilings for feature target claim tiers",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Package maintainers need plain-language boundaries for what can be claimed about a feature at each target tier.",
+      "decision": "Establish explicit language ceilings by tier (e.g. T0: Declared, T1: Verified, T2: Robust, T3: Certified, T4: Attested).",
+      "consequences": "Eliminates marketing inflation and enforces absolute honesty in release notes."
+    },
+    {
+      "id": "ADR-0513",
+      "title": "Adopt RFC 8785 JCS for .ssot JSON artifacts",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "JSON serialization drift creates inconsistent file hashes across runtimes.",
+      "decision": "Adopt RFC 8785 JSON Canonicalization Scheme (JCS) as the canonical JSON format for all .ssot artifacts.",
+      "consequences": "Guarantees deterministic, reproducible cryptographic signatures across Node, Python, and Rust."
+    },
+    {
+      "id": "ADR-0521",
+      "title": "CLI list ids filtering",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Operators need to query specific entity subsets without reading the entire index output.",
+      "decision": "Add a standard `--ids` filter to all CLI list commands.",
+      "consequences": "Improves scriptability and integration with pipeline automation."
+    },
+    {
+      "id": "ADR-0522",
+      "title": "Automated registry status synchronization",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Manual status tracking of features, claims, tests, and evidence leads to validation lag.",
+      "decision": "Introduce a standard `registry sync-statuses` command to derive states from proof graphs.",
+      "consequences": "Provides an idempotent, automated way to finalize registry state before locking code freezes."
+    },
+    {
+      "id": "ADR-0523",
+      "title": "TUI registry loads run in background workers",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Reading and validating large registry JSON files inside the TUI can lock the main event thread and freeze user interactions.",
+      "decision": "Implement non-blocking background workers using Python Textual's worker API for registry parsing and validation.",
+      "consequences": "Ensures a highly responsive, stutter-free operator experience even on deep projects."
+    },
+    {
+      "id": "ADR-0528",
+      "title": "Repo-local TOML configuration",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Repositories need durable local policies for CLI defaults, automation settings, and workspace paths.",
+      "decision": "Establish `.ssot/config.toml` as the authoritative, versionable, repo-local policy file.",
+      "consequences": "Separates canonical project truth from local developer workspace preferences."
+    },
+    {
+      "id": "ADR-0530",
+      "title": "File and folder lock leases",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Concurrent processes or automated agents mutating the same workspace can corrupt the JSON database.",
+      "decision": "Support lease-based folder/file locks to prevent overlapping writes.",
+      "consequences": "Secures collaborative multi-worker execution chains on local nodes."
+    },
+    {
+      "id": "ADR-0534",
+      "title": "Registry JSON file locking is scoped separately",
+      "status": "Approved",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Protecting `.ssot/registry.json` must be extremely robust and lightweight.",
+      "decision": "Use a simple file-system sidecar lock (.lock file) to serialize direct database modifications.",
+      "consequences": "Fails fast with clear concurrency errors without requiring a heavy lock manager database."
+    },
+    {
+      "id": "ADR-0542",
+      "title": "ssot-pack-contracts is the shared governance-pack contract layer",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Integrating third-party compliance standards (e.g. SOC2, HIPAA) required duplicating manifest logic.",
+      "decision": "Introduce a lightweight shared contracts module `ssot-pack-contracts` for third-party compliance extension packs.",
+      "consequences": "Standardizes metadata, resource loading, and sync rules across all community-contributed policy packs."
+    },
+    {
+      "id": "ADR-0546",
+      "title": "Pack-scoped document identity for extension packs",
+      "status": "Draft",
+      "origin": "ssot-core",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Using bare ADR/SPEC identifiers like `adr:0001` leads to collision when loading SOC2 and HIPAA policy packs together.",
+      "decision": "Scope extension-pack documents globally using tuples of `(pack_id, document_kind, local_id)`.",
+      "consequences": "Enables loading any number of parallel compliance standards without id collision."
+    },
+    {
+      "id": "ADR-0615",
+      "title": "Downstream assurance-language ceilings for feature target claim tiers",
+      "status": "Approved",
+      "origin": "ssot-origin",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Downstream repositories must adopt the same high compliance standards and honest phrasing.",
+      "decision": "Require all conforming downstream repositories to enforce target-tier assurance language ceilings in their reports.",
+      "consequences": "Ensures that a release report cannot describe a T1 feature with T3 'certified' or T4 'attested' language."
+    },
+    {
+      "id": "ADR-0627",
+      "title": "Feature parent links are inventory composition",
+      "status": "Approved",
+      "origin": "ssot-origin",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Modeling leaf features and parent features must not create complex dependency loops.",
+      "decision": "Declare parent links as inventory-grouping elements only; they do not affect readiness pass/fail logic.",
+      "consequences": "Separates logical workspace layout from physical compilation blockers."
+    },
+    {
+      "id": "ADR-0633",
+      "title": "Public registry save validates before write",
+      "status": "Approved",
+      "origin": "ssot-origin",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "Direct Python API calls to save registry state could bypass validation rules, writing corrupt nodes.",
+      "decision": "Force the public `save_registry` API to run schema validation and fail closed on errors.",
+      "consequences": "Only explicit, checked-in recovery scripts can write unvalidated schemas."
+    },
+    {
+      "id": "ADR-0640",
+      "title": "Evidence Owns Proof Linkage",
+      "status": "Draft",
+      "origin": "ssot-origin",
+      "author": "SSOT Core Team",
+      "date": "2026-06-30",
+      "context": "The old schema linked claims directly to tests, creating ambiguous proof triangles without tracking the physical artifact.",
+      "decision": "Declare evidence as the canonical proof carrier. The path is strictly: `test -> evidence -> claim`.",
+      "consequences": "Tests do not prove claims directly; they produce evidence, and evidence supports claims with absolute provenance."
+    }
+  ],
+  "specificationDocuments": [
+    {
+      "id": "SPEC-0505",
+      "title": "CLI metadata contract",
+      "parentAdrId": "ADR-0506",
+      "ruleDefinition": "CLI metadata must describe output formats, entity families, root flags, and support `--version` package version reporting.",
+      "verificationSource": "ssot-cli --version",
+      "description": "Standardizes CLI execution parameters, exit codes, and output formatting flags."
+    },
+    {
+      "id": "SPEC-0506",
+      "title": "TUI metadata contract",
+      "parentAdrId": "ADR-0506",
+      "ruleDefinition": "TUI must render entity sections, table columns, search filters, and CLI bridges matching CLI schemas.",
+      "verificationSource": "ssot-tui --validate",
+      "description": "Enforces visual parity and keybinding consistency across the Textual operator browser."
+    },
+    {
+      "id": "SPEC-0517",
+      "title": "Migration path coverage contract",
+      "parentAdrId": "ADR-0510",
+      "ruleDefinition": "Every schema version change must register a pytest migration edge with explicit target coverage and test assertions.",
+      "verificationSource": "pytest tests/unit/test_migration_paths.py",
+      "description": "Automates compatibility checking and prevents silent data loss during registry upgrades."
+    },
+    {
+      "id": "SPEC-0520",
+      "title": "RFC 8785 JCS canonical JSON for .ssot artifacts",
+      "parentAdrId": "ADR-0513",
+      "ruleDefinition": "All registry JSON payloads must be parsed, stripped of formatting whitespace, sorted by keys, and serialized according to JCS standards.",
+      "verificationSource": "pytest tests/unit/test_jcs_canonicalization.py",
+      "description": "Ensures that SHA256 digests remain perfectly stable across different programming language runtimes."
+    },
+    {
+      "id": "SPEC-0522",
+      "title": "Automated status synchronization specifications",
+      "parentAdrId": "ADR-0522",
+      "ruleDefinition": "Status derivations must be derived idempotently from the proof graph without escalating claim tiers without tier-gate approvals.",
+      "verificationSource": "ssot registry sync-statuses --dry-run",
+      "description": "Provides an auditable pre-closure pipeline before final boundary seals are established."
+    },
+    {
+      "id": "SPEC-0523",
+      "title": "TUI non-blocking registry loading specification",
+      "parentAdrId": "ADR-0523",
+      "ruleDefinition": "TUI load worker calls must not run on the main thread; pending requests must show active loading state and older loads must be superseded.",
+      "verificationSource": "pytest tests/unit/test_tui_overhaul.py",
+      "description": "Enforces complete responsiveness of the UI during heavy cryptographic hash computations."
+    },
+    {
+      "id": "SPEC-0528",
+      "title": "TOML configuration contract specifications",
+      "parentAdrId": "ADR-0528",
+      "ruleDefinition": "CLI must read default command, path, and sync choices from .ssot/config.toml, applying explicit CLI flags as highest precedence.",
+      "verificationSource": "pytest tests/integration/test_repo_local_configuration_and_automation.py",
+      "description": "Defines option resolution chains across the operator workspace."
+    },
+    {
+      "id": "SPEC-0530",
+      "title": "File and folder locking specifications",
+      "parentAdrId": "ADR-0530",
+      "ruleDefinition": "Lease acquisitions must block overlapping directory changes; locks must carry expiration timers and hearts to recover from crashes.",
+      "verificationSource": "pytest tests/unit/test_worker_control_plane.py",
+      "description": "Regulates concurrency and data safety in multi-process pipeline execution."
+    },
+    {
+      "id": "SPEC-0536",
+      "title": "Registry JSON file locking specifications",
+      "parentAdrId": "ADR-0534",
+      "ruleDefinition": "A sidecar lock must be successfully acquired and verified before any direct write to .ssot/registry.json can proceed.",
+      "verificationSource": "pytest tests/unit/test_registry_file_lock.py",
+      "description": "Provides thread-safe lock protection for the local database file."
+    },
+    {
+      "id": "SPEC-0546",
+      "title": "ssot-pack-contracts package contract specifications",
+      "parentAdrId": "ADR-0542",
+      "ruleDefinition": "The module must publish PackMetadata, PackDocumentEntry, error definitions, and zero-dependency binding helpers for compliance packs.",
+      "verificationSource": "pytest tests/unit/test_workspace_package_dag.py",
+      "description": "Defines the integration surface for third-party compliance pack developers."
+    },
+    {
+      "id": "SPEC-0554",
+      "title": "Extension-pack document materialization contract",
+      "parentAdrId": "ADR-0546",
+      "ruleDefinition": "Materialized rows from third-party packs must generate unique, pack-prefixed IDs (spc:pack.<pack>.<id>) and normalize source provenance.",
+      "verificationSource": "pytest tests/integration/test_cli_pack.py",
+      "description": "Guarantees namespace safety when running SOC2 and HIPAA controls in the same registry."
+    },
+    {
+      "id": "SPEC-0615",
+      "title": "Downstream assurance-language ceilings specifications",
+      "parentAdrId": "ADR-0615",
+      "ruleDefinition": "Verification reports must reject release claims if their plain-language descriptions exceed their effective claim tier limits.",
+      "verificationSource": "ssot validate --strict-language-ceilings",
+      "description": "Mandates clean, honest vocabulary in developer docs and release logs."
+    },
+    {
+      "id": "SPEC-0627",
+      "title": "Feature parent link contract specifications",
+      "parentAdrId": "ADR-0627",
+      "ruleDefinition": "Parent link parameters on child features are only allowed for organization and must not affect prerequisite gating.",
+      "verificationSource": "pytest tests/integration/test_cli_feature.py",
+      "description": "Prevents logical loops and ensures parent links are reserved strictly for index categorization."
+    },
+    {
+      "id": "SPEC-0635",
+      "title": "Registry save validation contract specifications",
+      "parentAdrId": "ADR-0633",
+      "ruleDefinition": "Default save APIs must validate candidate registries under complete schema checkers and fail closed on all errors.",
+      "verificationSource": "pytest tests/unit/test_registry_file_lock.py",
+      "description": "Secures programmatic save calls from generating invalid database states."
+    },
+    {
+      "id": "SPEC-0640",
+      "title": "Evidence Centered Proof Link Contract specifications",
+      "parentAdrId": "ADR-0640",
+      "ruleDefinition": "Evidence rows must directly own target claim_ids and producer test_ids. Direct test-to-claim links are deprecated and ignored for proof.",
+      "verificationSource": "pytest tests/unit/test_validate.py",
+      "description": "Centrally binds cryptographic evidence as the absolute source of validation proof."
+    }
+  ]
+}

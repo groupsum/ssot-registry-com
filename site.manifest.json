@@ -2,7 +2,7 @@
   "host": "ssot-registry.com",
   "zone": "ssot-registry.com",
   "repository": "groupsum/ssot-registry-com",
-  "siteKind": "mdwrk-lander",
+  "siteKind": "product-portfolio",
   "orchestrator": "npmctl",
   "dnsProvider": "namecheap",
   "deployment": "self-hosted-docker",

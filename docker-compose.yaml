@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     labels:
       site.host: ssot-registry.com
-      site.kind: mdwrk-lander
+      site.kind: product-portfolio
     expose:
       - "80"
     networks:
