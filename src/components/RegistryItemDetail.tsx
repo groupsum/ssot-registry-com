@@ -296,6 +296,15 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
                     <p className="text-xs text-zinc-600 leading-relaxed font-semibold">{activeItem.data.consequences}</p>
                   </div>
                 </div>
+
+                {activeItem.data.body && (
+                  <div>
+                    <h4 className="font-sans text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5">Canonical ADR Body</h4>
+                    <div className="rounded-lg bg-zinc-950 p-4 border border-zinc-900 max-h-[360px] overflow-y-auto scrollbar-thin">
+                      <pre className="whitespace-pre-wrap text-xs text-zinc-200 leading-relaxed font-mono">{activeItem.data.body}</pre>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -342,6 +351,14 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Contract Description</span>
                   <p className="text-xs text-zinc-600 leading-relaxed">{activeItem.data.description}</p>
                 </div>
+                {activeItem.data.body && (
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Canonical SPEC Body</span>
+                    <div className="bg-zinc-950 p-4 rounded-lg font-mono text-[11px] text-zinc-200 overflow-y-auto max-h-[360px] scrollbar-thin">
+                      <pre className="whitespace-pre-wrap">{activeItem.data.body}</pre>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -502,6 +519,15 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
                 <div className="bg-zinc-950 p-4 rounded-lg font-mono text-[11px] text-zinc-300 overflow-x-auto border border-zinc-900 leading-relaxed scrollbar-thin">
                   <pre>{activeItem.data.logSnippet}</pre>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeItem.category !== 'metadata' && (
+            <div className="pt-4 border-t border-zinc-100">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">Source Registry Row</span>
+              <div className="bg-zinc-950 p-4 rounded-lg font-mono text-[11px] text-emerald-400 overflow-x-auto max-h-[320px] scrollbar-thin border border-zinc-900">
+                <pre>{JSON.stringify(activeItem.data, null, 2)}</pre>
               </div>
             </div>
           )}

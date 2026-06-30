@@ -27,96 +27,84 @@ export default function WorkflowSimulator() {
       return `[ssot-cli] Initializing fresh SSOT workspace...
 [ssot-core] Creating local path directory: .ssot/
 [ssot-core] Writing bootstrap template schema v0.8.0 to .ssot/registry.json
-[ssot-core] Found 0 existing ADRs, 0 Specs, 0 Features.
-[ssot-cli] Success! Workspace initial state initialized. Run 'ssot validate .' to verify layout.`;
+[ssot-cli] Success. Run 'ssot validate .' to verify layout.`;
+    }
+    if (cmd.includes("pack preflight")) {
+      return `[ssot-pack-contracts] Inspecting seo-aeo-aieo-governance-pack manifest...
+[ssot-pack-contracts] Validating reserved ADR/SPEC ranges and source metadata.
+[ssot-cli] Preflight complete: no blocking conflicts detected.`;
     }
     if (cmd.includes("pack sync")) {
-      return `[ssot-pack-contracts] Inspecting 'seo-aeo-aieo-governance-pack' compatible versions...
-[ssot-pack-contracts] Loading manifest... Found 12 standard SPECs, 10 standard ADRs.
-[ssot-pack-contracts] Compatibility verified for python >=3.10,<3.15.
-[ssot-pack-contracts] Preflight checks: 0 conflicts detected. Syncing to reserved ranges...
-[ssot-core] Syncing files to .ssot/packs/seo-aeo-aieo/
-[ssot-core] Writing synced nodes into '.ssot/registry.json' (origin: extension-pack, source_pack_id: 'seo-aeo-aieo').
-[ssot-cli] Synchronization complete. 12 specifications and 10 decision records imported.`;
+      return `[ssot-pack-contracts] Syncing seo-aeo-aieo-governance-pack...
+[ssot-core] Preserving source_pack_id, source_package_name, and downstream origin metadata.
+[ssot-cli] Synchronization complete. Run 'ssot validate .' before committing registry changes.`;
     }
     if (cmd.startsWith("ssot feature list")) {
       return `[ssot-core] Scanning .ssot/registry.json for active features...
-┌─────────────┬────────────────────────────────────┬─────────────────────┬─────────────┐
-│ Feature ID  │ Description                        │ SPEC Reference      │ Status      │
-├─────────────┼────────────────────────────────────┼─────────────────────┼─────────────┤
-│ FEAT-101    │ Semantic robots.txt validation     │ SPEC-SEO-01         │ Implemented │
-│ FEAT-102    │ Multi-sitemap generation           │ SPEC-SEO-02         │ Implemented │
-│ FEAT-103    │ LLMs-txt crawler discovery path    │ SPEC-AEO-01         │ Implemented │
-│ FEAT-104    │ JSON-LD schema payload injection   │ SPEC-AiEO-01        │ Partial     │
-└─────────────┴────────────────────────────────────┴─────────────────────┴─────────────┘
-[ssot-cli] Total active features: 407 (367 Current, 29 Next, 9 Explicit, 2 Backlog).`;
+ID                                            Status       Claims  Tests
+feat:ssot-boundary-freeze-command            current      linked  linked
+feat:claim-tier-gates.t4-external-validation current      linked  linked
+feat:ssot-pack-sync-source-metadata           current      linked  linked
+feat:ssot-graph-lineage-export                current      linked  linked
+[ssot-cli] Totals: 408 features, 1380 claims, 359 tests, 645 evidence rows.`;
     }
     if (cmd.includes("boundary freeze")) {
-      return `[ssot-core] Preparing scope freeze against target ID: 'boundary-v1.0'
-[ssot-core] Scanning active capability registrations...
-[ssot-core] Freezing 407 features and 3 environment profiles.
-[ssot-core] Saving immutable snapshot hash: sha256:7f83a218001bfa674c93
-[ssot-core] Boundary snapshot recorded under .ssot/snapshots/boundary-v1.0.json
-[ssot-cli] Success! Boundary locked. Features cannot be added or deleted without breaking release certification.`;
+      return `[ssot-core] Loading delivery boundary bnd:all-t2-to-t3-2026-06-07.
+[ssot-core] Resolving boundary feature/profile membership from .ssot/registry.json.
+[ssot-core] Freezing scope so certification uses a stable target set.
+[ssot-cli] Boundary freeze complete.`;
     }
-    if (cmd.startsWith("ssot test run")) {
-      return `[ssot-conformance] Initiating pytest-conformance validation hooks...
-[ssot-conformance] Running 355 active test specs...
+    if (cmd.startsWith("ssot conformance run")) {
+      return `[ssot-conformance] Discovering conformance suites from registry-linked tests...
+[ssot-conformance] Running registered project verification commands...
 ...................................................................... [ 20%]
 ...................................................................... [ 40%]
 ...................................................................... [ 60%]
 ...................................................................... [ 80%]
 ...................................................................... [100%]
-[ssot-conformance] All 355 test runs PASSED. Emitting machine evidence.
-[ssot-core] Writing 642 new evidence logs to .ssot/registry.json.`;
+[ssot-conformance] Completed repeatable project-controlled verification.
+[ssot-core] Evidence remains evidence-owned through evidence.claim_ids and evidence.test_ids.`;
     }
     if (cmd.startsWith("ssot claim evaluate")) {
-      return `[ssot-core] Evaluating claim trees against frozen boundary parameters...
-[ssot-core] Claim Tiers Status Summary:
-  - T0 (Features exist): 407 / 407 claims SATISFIED
-  - T1 (Specs valid): 383 / 383 claims SATISFIED
-  - T2 (Tests verified): 425 / 425 claims SATISFIED
-  - T3 (Promotion proofs exists): 161 / 161 claims SATISFIED
-[ssot-cli] Success! Proof chain integrity satisfies 100% of claims.`;
+      return `[ssot-core] Evaluating claim trees against current registry state...
+[ssot-core] Claim tier summary:
+  - T0 Declared / Inventory: 408 claims
+  - T1 Project Verified: 384 claims
+  - T2 Robustly Project Verified: 426 claims
+  - T3 Release Certified: 162 claims
+  - T4 Externally Certified: 0 active claims
+[ssot-cli] Claim evaluation complete.`;
     }
-    if (cmd.startsWith("ssot evidence verify")) {
-      return `[ssot-core] Sweeping 642 evidence rows for cryptographical authenticity...
-[ssot-core] Verifying test artifact hashes...
-[ssot-core] Verifying signature file signatures...
-[ssot-core] Conformance level: 100% authentic. 0 orphaned evidence records detected.
-[ssot-cli] Integrity check: OK. Ready for release certification.`;
+    if (cmd.startsWith("ssot evidence list")) {
+      return `[ssot-core] Reading evidence rows from .ssot/registry.json...
+[ssot-core] Evidence rows: 645
+[ssot-core] Tier distribution: T0=7, T1=360, T2=115, T3=163
+[ssot-cli] Evidence listing complete.`;
     }
     if (cmd.includes("release certify")) {
-      return `[ssot-core] Reading frozen boundary state: 'boundary-v1.0'
-[ssot-core] Asserting conformance criteria:
+      return `[ssot-core] Reading frozen boundary state from the release record.
+[ssot-core] Asserting release certification criteria:
   - Check 1: All features registered? YES
   - Check 2: No scope drift? YES
-  - Check 3: All T0-T2 claim nodes proven? YES
-  - Check 4: Evidence rows authentic? YES
-[ssot-core] Generating certification report...
-[ssot-core] Attesting release candidate rel-1.0.0. Writing signature.
-[ssot-cli] Success! Release certified. Report exported to .ssot/reports/certification-v1.0.json`;
+  - Check 3: Required claims are satisfied by linked evidence? YES
+  - Check 4: Release transition is valid? YES
+[ssot-cli] Release certification command completed.`;
     }
     if (cmd.includes("release promote")) {
-      return `[ssot-core] Loading certified release candidate: rel-1.0.0
-[ssot-core] Gating checks for target environment: 'production'...
-[ssot-core] Verifying certification signatures: Valid signature from ReleaseManager.
-[ssot-core] Synchronizing registry databases...
-[ssot-cli] Promotion successful! Release state promoted to 'production'.`;
+      return `[ssot-core] Loading certified release record.
+[ssot-core] Validating release state transition before promotion.
+[ssot-cli] Release promotion command completed.`;
     }
     if (cmd.startsWith("ssot graph lineage")) {
       return `[ssot-views] Scanning registry for dependency pathways...
-[ssot-views] Building layout tree linking 90 ADRs -> 99 Specs -> 407 Features -> 1376 Claims.
-[ssot-views] Loading @ssot-registry/lineage-graph React payload bundle...
-[ssot-views] Writing offline-ready standalone review file to: ./dist/lineage-report-rel-1.0.0.html
-[ssot-cli] Export complete! Report is fully interactive and viewable in any browser offline.`;
+[ssot-views] Building layout tree across 90 ADRs, 99 Specs, 408 Features, 1380 Claims, 359 Tests, and 645 Evidence rows.
+[ssot-views] Writing offline-ready standalone review file to: lineage.html
+[ssot-cli] Export complete.`;
     }
     if (cmd.includes("registry export")) {
       return `[ssot-views] Opening canonical database .ssot/registry.json...
-[ssot-views] Exporting schema structure v0.8.0 to relational projection...
-[ssot-views] Compiling SQL tables...
-[ssot-views] Creating local database file: ./dist/registry-snapshot.sqlite
-[ssot-cli] Export completed. 11 schema tables initialized inside SQL database successfully.`;
+[ssot-views] Exporting schema structure v0.8.0 as JSON.
+[ssot-cli] Export completed.`;
     }
     return `[ssot-cli] Executing: ${cmd}...\nDone.`;
   };
@@ -156,11 +144,10 @@ export default function WorkflowSimulator() {
           Interactive Release Workflow Simulator
         </h3>
         <p className="text-sm text-zinc-500">
-          Walk through the 4-stage release operator lifecycle. Select a phase, click commands to run them, and view real-time feedback.
+          Walk through the release operator lifecycle with current SSOT Registry commands and registry counts.
         </p>
       </div>
 
-      {/* Workflow Phase Selection tabs */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-4 border-b border-zinc-100 pb-4">
         {WORKFLOWS.map((wf, idx) => (
           <button
@@ -178,7 +165,6 @@ export default function WorkflowSimulator() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Flow Steps */}
         <div className="lg:col-span-1 space-y-3">
           <div className="rounded-lg bg-zinc-50 p-4 border border-zinc-100">
             <h4 className="font-sans text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
@@ -220,9 +206,7 @@ export default function WorkflowSimulator() {
           </div>
         </div>
 
-        {/* Right Column: Terminal Panel */}
         <div className="lg:col-span-2 flex flex-col h-[340px] lg:h-auto min-h-[320px]">
-          {/* Terminal Header */}
           <div className="flex items-center justify-between rounded-t-lg bg-zinc-900 px-4 py-2 text-zinc-400 border-b border-zinc-800 shrink-0">
             <div className="flex items-center gap-1.5">
               <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
@@ -254,12 +238,10 @@ export default function WorkflowSimulator() {
             </div>
           </div>
 
-          {/* Terminal Body */}
           <div className="flex-1 overflow-y-auto bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-300 whitespace-pre-wrap select-text rounded-b-lg scrollbar-thin scrollbar-thumb-zinc-800">
             {terminalOutput}
           </div>
 
-          {/* Trigger button */}
           <div className="mt-3 flex gap-2 justify-end shrink-0">
             <button
               onClick={handleRunCommand}

@@ -38,7 +38,7 @@ export default function ToolchainShowcase() {
       id: "build-proof-chains",
       label: "Build Proof Chains",
       commands: ["ssot test", "ssot claim", "ssot evidence"],
-      desc: "Run active test suites, register compliance assertions (Claims), and verify immutable, sign-off-ready Evidence logs."
+      desc: "Register verification tests, evaluate tiered claims, and link evidence rows that own proof linkage back to claims."
     },
     {
       id: "freeze-and-release",
@@ -50,19 +50,19 @@ export default function ToolchainShowcase() {
       id: "export-and-inspect",
       label: "Export & Inspect",
       commands: ["ssot registry", "ssot graph"],
-      desc: "Compile unified registry summaries and export interactive DOT/SVG lineages for dependency visualizers."
+      desc: "Export the full registry, sync derived statuses, repair document hashes, and render graph or lineage views."
     },
     {
       id: "packs-and-conformance",
       label: "Governance Packs",
       commands: ["ssot pack", "ssot conformance"],
-      desc: "Fetch pre-built policy rules, register external compliance schemas, and run automated conformance verification routines."
+      desc: "Inspect, preflight, and sync governance packs; discover, scaffold, run, and generate SSOT conformance cases."
     },
     {
       id: "automation",
       label: "Coordinate Automation",
       commands: ["ssot leases", "ssot worker", "ssot campaign", "ssot maturity", "ssot repo-watch"],
-      desc: "Orchestrate pull-worker background agents, manage lease states, track workspace maturity gates, and watch active Git repositories."
+      desc: "Inspect campaign state, manage worker leases, select maturation slices, and scan the worktree for forbidden or out-of-lease edits."
     }
   ];
 
@@ -85,19 +85,19 @@ export default function ToolchainShowcase() {
     {
       name: "CI Workflow",
       file: "ci.yml",
-      desc: "Runs multi-package validation matrices across Python 3.10 through 3.14 to ensure backward compatibility and API stability.",
+      desc: "Runs package CI using the shared package workflow, installs workspace packages with uv, verifies packaged doc mirrors, compiles code, and runs tests.",
       url: "https://github.com/groupsum/ssot-registry/actions/workflows/ci.yml"
     },
     {
       name: "Prepare Release",
       file: "prepare-release.yml",
-      desc: "Triggers manual release-train version bumps and generates version-specific changelog pull requests.",
+      desc: "Prepares release-train metadata before publication.",
       url: "https://github.com/groupsum/ssot-registry/actions/workflows/prepare-release.yml"
     },
     {
       name: "Release Execution",
       file: "release.yml",
-      desc: "Deploys verified Python wheels to PyPI and projects compiled JSON schema metadata graphs to production artifacts.",
+      desc: "Builds selected Python distributions once, publishes packages in dependency layers, can publish the lineage graph npm package, and can create GitHub releases.",
       url: "https://github.com/groupsum/ssot-registry/actions/workflows/release.yml"
     }
   ];
@@ -105,14 +105,14 @@ export default function ToolchainShowcase() {
   const codexPlugins = [
     {
       name: "SSOT CLI Codex Plugin",
-      skills: "27 active skills",
-      desc: "Allows AI-assisted agents to coordinate and operate SSOT repositories directly inside a local virtual environment (e.g. decision-to-scope, frozen-boundary setup).",
+      skills: "CLI workflow skills",
+      desc: "Codex plugin `ssot-cli` operates repositories through a local uv environment using the PyPI-published SSOT CLI aliases.",
       url: "/plugin/ssot-cli-codex"
     },
     {
       name: "SSOT MCP Plugin",
-      skills: "4 automation skills",
-      desc: "Connects LLMs to the Model Context Protocol (MCP) server, enabling workers to trigger campaigns, update leases, and evaluate workspace maturity.",
+      skills: "MCP campaign skills",
+      desc: "Codex plugin `ssot-mcp` keeps pull-worker campaigns, lease-aware maturity work, and registry mutations on the MCP-governed rail.",
       url: "/plugin/ssot-mcp-server"
     }
   ];
@@ -173,7 +173,7 @@ export default function ToolchainShowcase() {
             </div>
             
             <p className="text-sm text-zinc-600 leading-relaxed">
-              The command rail allows operators to fully orchestrate SSOT registries, validate local trees, and freeze scopes. Every command returns standard POSIX exit codes, enabling fail-closed pipeline integration.
+              The command rail operates the live SSOT registry model: initialization, validation, repo-local config, campaigns, leases, maturity slices, worker actions, ADRs, specs, features, profiles, tests, issues, packs, claims, conformance, evidence, risks, boundaries, releases, graphs, and registry exports.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -214,13 +214,13 @@ export default function ToolchainShowcase() {
               <div className="space-y-3 select-text">
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-zinc-500">$ ssot validate --output-format json</span>
+                    <span className="text-zinc-500">$ ssot --version</span>
                     <button 
-                      onClick={() => handleCopy("ssot validate --output-format json")}
+                      onClick={() => handleCopy("ssot --version")}
                       className="text-zinc-600 hover:text-zinc-300 transition-colors"
                       title="Copy command"
                     >
-                      {copiedCmd === "ssot validate --output-format json" ? (
+                      {copiedCmd === "ssot --version" ? (
                         <Check className="h-3 w-3 text-emerald-500" />
                       ) : (
                         <Copy className="h-3 w-3" />
@@ -228,24 +228,23 @@ export default function ToolchainShowcase() {
                     </button>
                   </div>
                   <pre className="text-[11px] text-emerald-400 leading-normal mt-1">
-{`{
-  "status": "conforming",
-  "conformanceTiers": { "T0": true, "T1": true, "T2": true, "T3": false },
-  "nodeCount": 1376,
-  "leaksCount": 0
-}`}
+{`ssot package versions:
+ssot-cli 0.1.20.dev1
+ssot-core 0.2.26.dev1
+ssot-registry 0.2.26.dev1
+ssot-tui 0.1.20.dev1`}
                   </pre>
                 </div>
 
                 <div className="border-t border-zinc-900 pt-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-zinc-500">$ ssot boundary freeze --boundary-id release-v1.0</span>
+                    <span className="text-zinc-500">$ ssot graph lineage . --output-file lineage.html</span>
                     <button 
-                      onClick={() => handleCopy("ssot boundary freeze --boundary-id release-v1.0")}
+                      onClick={() => handleCopy("ssot graph lineage . --output-file lineage.html")}
                       className="text-zinc-600 hover:text-zinc-300 transition-colors"
                       title="Copy command"
                     >
-                      {copiedCmd === "ssot boundary freeze --boundary-id release-v1.0" ? (
+                      {copiedCmd === "ssot graph lineage . --output-file lineage.html" ? (
                         <Check className="h-3 w-3 text-emerald-500" />
                       ) : (
                         <Copy className="h-3 w-3" />
@@ -267,7 +266,7 @@ export default function ToolchainShowcase() {
               <div className="space-y-1">
                 <span className="block font-bold text-zinc-900 text-xs">Production Guard Warning</span>
                 <p className="text-[11px] text-zinc-600 leading-relaxed">
-                  The CLI does not replace your test runner or compiler. It hooks into them, extracting verification output hashes and locking delivery boundaries to prevent unvetted changes from reaching deployment.
+                  The CLI does not replace your test runner or compiler. It records tests and evidence, evaluates claims, freezes boundaries, and certifies releases through explicit registry operations.
                 </p>
               </div>
             </div>
@@ -290,7 +289,7 @@ export default function ToolchainShowcase() {
             </div>
 
             <p className="text-sm text-zinc-600 leading-relaxed">
-              Built using the robust Python-native <strong>Textual</strong> TUI library, <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-900 font-semibold">ssot-tui</code> provides a read-first terminal browser and inspector. Reviewers and developers can safely explore nodes, validation flags, and proof chains without committing unexpected database mutations.
+              Built with the Python <strong>Textual</strong> framework, <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-900 font-semibold">ssot-tui</code> is a read-oriented terminal browser for current registry content. It depends on <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-900 font-semibold">ssot-core</code>, <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-900 font-semibold">ssot-contracts</code>, and Textual, and is exposed through the umbrella <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-900 font-semibold">ssot-registry[tui]</code> extra.
             </p>
 
             <div className="space-y-3 pt-2">
@@ -338,7 +337,7 @@ export default function ToolchainShowcase() {
               <div className="space-y-1">
                 <span className="block font-bold text-amber-950 text-xs">Read-Only Safety Boundaries</span>
                 <p className="text-[11px] text-amber-800 leading-relaxed">
-                  The terminal browser is strictly read-only and designed for review. It compiles and previews safe CLI queries on the fly so developers can audit schemas visually without accidentally altering registry signatures.
+                  The TUI is intentionally read-oriented and does not implement full CRUD parity with the CLI. Use `ssot-cli` for mutation workflows and `ssot-tui` for keyboard-first review.
                 </p>
               </div>
             </div>

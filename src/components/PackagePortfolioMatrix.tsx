@@ -11,7 +11,7 @@ interface SidebarProps {
 
 export function PortfolioSidebar({ packages, selectedId, onSelect }: SidebarProps) {
   return (
-    <div className="lg:col-span-1 space-y-1 max-h-[440px] overflow-y-auto border border-zinc-200 rounded-xl bg-white p-2 shadow-2xs portfolio-scrollbar" id="portfolio-sidebar">
+    <div className="lg:col-span-1 space-y-1 max-h-[640px] lg:max-h-[720px] overflow-y-auto border border-zinc-200 rounded-xl bg-white p-2 shadow-2xs portfolio-scrollbar" id="portfolio-sidebar">
       {packages.map((pkg) => (
         <button
           key={pkg.id}
@@ -166,7 +166,7 @@ export function PortfolioDetail({ activePkg, copiedInstall, onCopyInstall }: Det
   );
 }
 
-export default function ProductPortfolio() {
+export default function PackagePortfolioMatrix() {
   const [selectedId, setSelectedId] = useState<string>("ssot-registry");
   const [copiedInstall, setCopiedInstall] = useState<string | null>(null);
 
@@ -179,7 +179,7 @@ export default function ProductPortfolio() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8" id="product-portfolio-matrix">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8" id="package-portfolio-matrix">
       <SidebarPropsWrapper
         packages={packagePortfolio}
         selectedId={selectedId}

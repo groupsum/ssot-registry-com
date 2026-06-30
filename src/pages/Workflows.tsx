@@ -36,9 +36,10 @@ export default function Workflows() {
           <div className="rounded-lg bg-zinc-50 p-4 font-mono text-xs space-y-2">
             <span className="block text-[10px] uppercase font-bold text-zinc-400">Commands to Run:</span>
             <div className="text-zinc-800">$ ssot init .</div>
-            <div className="text-zinc-800">$ ssot pack sync . seo-aeo-aieo-governance-pack</div>
+            <div className="text-zinc-800">$ ssot pack preflight . seo-aeo-aieo-governance-pack</div>
+            <div className="text-zinc-800">$ ssot pack sync . seo-aeo-aieo-governance-pack --trust --yes</div>
             <p className="text-[10px] text-zinc-500 mt-1 leading-normal">
-              # Initializes workspace and pulls down policy guidelines to seed the registry.
+              # Initializes workspace, checks pack compatibility, and syncs governed documents into the registry.
             </p>
           </div>
         </div>
@@ -58,7 +59,7 @@ export default function Workflows() {
           </p>
           <div className="rounded-lg bg-zinc-50 p-4 font-mono text-xs space-y-2">
             <span className="block text-[10px] uppercase font-bold text-zinc-400">Commands to Run:</span>
-            <div className="text-zinc-800">$ ssot boundary freeze . --boundary-id release-v1.0</div>
+            <div className="text-zinc-800">$ ssot boundary freeze . --boundary-id bnd:all-t2-to-t3-2026-06-07</div>
             <p className="text-[10px] text-zinc-500 mt-1 leading-normal">
               # Locks active capability items, saving an immutable snapshot signature in the local tree.
             </p>
@@ -76,14 +77,15 @@ export default function Workflows() {
             </h3>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Claims say what must be true, and evidence represents physical test signatures. Release Certification runs checks verifying all boundary claims are satisfied.
+            Claims say what must be true, while evidence owns the proof links to claims and producer links to tests. Release certification checks that required claims are satisfied for the frozen boundary.
           </p>
           <div className="rounded-lg bg-zinc-50 p-4 font-mono text-xs space-y-2">
             <span className="block text-[10px] uppercase font-bold text-zinc-400">Commands to Run:</span>
-            <div className="text-zinc-800">$ ssot test run .</div>
-            <div className="text-zinc-800">$ ssot release certify . --release-id rel-1.0</div>
+            <div className="text-zinc-800">$ ssot conformance run .</div>
+            <div className="text-zinc-800">$ ssot claim evaluate .</div>
+            <div className="text-zinc-800">$ ssot release certify . --release-id rel:all-t2-to-t3-2026-06-07</div>
             <p className="text-[10px] text-zinc-500 mt-1 leading-normal">
-              # Sweeps compliance assertions and generates a certified cryptographic release state.
+              # Runs verification, evaluates tiered claims, and certifies release readiness.
             </p>
           </div>
         </div>
@@ -99,12 +101,12 @@ export default function Workflows() {
             </h3>
           </div>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            The final stage promotes certified releases to production gates, and projects sitemaps, structured HTML documentation, or lineage diagrams directly to public artifact folders.
+            The final stage promotes certified releases and exports lineage diagrams or registry projections for review.
           </p>
           <div className="rounded-lg bg-zinc-50 p-4 font-mono text-xs space-y-2">
             <span className="block text-[10px] uppercase font-bold text-zinc-400">Commands to Run:</span>
-            <div className="text-zinc-800">$ ssot release promote . --env production</div>
-            <div className="text-zinc-800">$ ssot graph lineage .</div>
+            <div className="text-zinc-800">$ ssot release promote . --release-id rel:all-t2-to-t3-2026-06-07</div>
+            <div className="text-zinc-800">$ ssot graph lineage . --output-file lineage.html</div>
             <p className="text-[10px] text-zinc-500 mt-1 leading-normal">
               # Advances release state and compiles interactive, offline-ready trace reports.
             </p>

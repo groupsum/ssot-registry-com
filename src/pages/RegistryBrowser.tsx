@@ -210,15 +210,16 @@ export default function RegistryBrowser() {
     const itemLabel = activeItem.label || activeItem.id;
     const itemDesc = activeItem.category === 'metadata'
       ? `Metadata details of project ${activeItem.data.projectName}`
-      : activeItem.category === 'adrs'
-      ? activeItem.data.context
-      : activeItem.category === 'claims'
-      ? activeItem.data.statement
-      : `Registry entry ${activeItem.id}`;
+      : activeItem.data.context ||
+        activeItem.data.description ||
+        activeItem.data.summary ||
+        activeItem.data.statement ||
+        activeItem.data.title ||
+        `Registry entry ${activeItem.id}`;
 
     const page = {
-      title: `${itemLabel} - sot-registry.json Explorer`,
-      description: itemDesc.substring(0, 150),
+      title: `${itemLabel} - .ssot/registry.json Explorer`,
+      description: String(itemDesc).substring(0, 150),
       h1: itemLabel,
       canonicalUrl: pageUrl,
       breadcrumbs: [
@@ -257,7 +258,7 @@ export default function RegistryBrowser() {
               SSOT Registry Browser
             </h1>
             <p className="mt-2 text-sm text-zinc-500 leading-relaxed max-w-3xl">
-              An interactive file inspector for <code className="font-mono text-zinc-900 bg-zinc-100 px-1 py-0.5 rounded font-semibold text-xs">sot-registry.json</code>. Browse, filter, and trace decision records (ADRs), requirement specifications, capability features, claims, tests, and execution evidence.
+              An interactive file inspector for <code className="font-mono text-zinc-900 bg-zinc-100 px-1 py-0.5 rounded font-semibold text-xs">.ssot/registry.json</code>. Browse, filter, and trace decision records (ADRs), requirement specifications, capability features, claims, tests, and execution evidence.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -289,7 +290,7 @@ export default function RegistryBrowser() {
             }`}
           >
             <FileCode className="h-4 w-4" />
-            Raw sot-registry.json File
+            Raw .ssot/registry.json File
           </button>
         </div>
       </div>

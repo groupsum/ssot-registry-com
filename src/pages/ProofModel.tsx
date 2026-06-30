@@ -6,36 +6,36 @@ export default function ProofModel() {
     {
       id: "T0",
       label: "Tier 0: Declared",
-      count: "407 claims",
-      desc: "Static validation checking that features are registered under valid keys in the registry. Capability is merely declared.",
+      count: "408 claims",
+      desc: "Tracked, intended, planned, scoped, or inventoried. T0 does not assert working behavior.",
       icon: <FileCheck className="h-5 w-5 text-zinc-400" />
     },
     {
       id: "T1",
-      label: "Tier 1: Verified",
-      count: "383 claims",
-      desc: "Ensures that all features are mapped directly back to active normative requirement documents and specifications.",
+      label: "Tier 1: Project Verified",
+      count: "384 claims",
+      desc: "Direct expected behavior is implemented and verified by repeatable project-controlled tests and evidence.",
       icon: <CheckCircle2 className="h-5 w-5 text-blue-500" />
     },
     {
       id: "T2",
-      label: "Tier 2: Robust",
-      count: "425 claims",
-      desc: "Requires that associated claims are backed by executable conformance specs and have produced positive test logs.",
+      label: "Tier 2: Robustly Project Verified",
+      count: "426 claims",
+      desc: "Satisfies T1 and adds declared robustness coverage such as negative cases, edge cases, compatibility, concurrency, security abuse cases, fuzz/property checks, or regression corpora.",
       icon: <ShieldCheck className="h-5 w-5 text-emerald-500" />
     },
     {
       id: "T3",
-      label: "Tier 3: Certified",
-      count: "161 claims",
-      desc: "Validates that immutable evidence row hashes match cryptographic keys and contain promotion signatures.",
+      label: "Tier 3: Release Certified",
+      count: "162 claims",
+      desc: "Satisfies configured lower-tier requirements and is certified inside a governed release, frozen boundary, or profile scope.",
       icon: <KeyRound className="h-5 w-5 text-amber-500" />
     },
     {
       id: "T4",
-      label: "Tier 4: Attested",
-      count: "12 claims",
-      desc: "Independently audited and hardware-attested cryptographic guarantees, providing absolute non-repudiation.",
+      label: "Tier 4: Externally Certified",
+      count: "0 current claims",
+      desc: "Requires external validation authority. External dependency usage alone is not T4; authoritative external suites, independent reviews, or certification artifacts can qualify when provenance and scope are recorded.",
       icon: <FileBadge className="h-5 w-5 text-purple-500" />
     }
   ];
@@ -60,7 +60,7 @@ export default function ProofModel() {
           The Software Assurance Proof Model
         </h1>
         <p className="mt-4 text-base text-zinc-500 leading-relaxed">
-          Claims say what should be true. Tests verify behavior. Evidence records the artifact that supports the claim. Explore how SSOT links assertions directly to physical logs.
+          Claims say what should be true. Features scope the claim. Tests produce evidence. Evidence owns the canonical proof linkage back to claims.
         </p>
       </div>
 
@@ -75,7 +75,7 @@ export default function ProofModel() {
               In standard compliance pipelines, teams provide a checklist or PDF document claiming that software features have been tested and approved. However, these documents are detached from the actual codebase.
             </p>
             <p>
-              SSOT Registry solves this through <strong>Proof Chains</strong>. A <strong>Claim</strong> node is registered, declaring a security or functional posture. This claim lists target <strong>Test</strong> references. Finally, executing tests generates cryptographic <strong>Evidence</strong> containing verification logs and compiler signatures.
+              SSOT Registry solves this through <strong>evidence-centered proof graphs</strong>. A feature scopes one or more claims. Tests may produce evidence. Evidence rows own proof linkage through <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-800">evidence.claim_ids</code> and test provenance through <code className="font-mono text-xs bg-zinc-100 px-1 py-0.5 rounded text-zinc-800">evidence.test_ids</code>. Claim-to-test fields remain useful planning indexes, but evidence-owned links are canonical.
             </p>
           </div>
           <div className="rounded-xl bg-zinc-900 shadow-lg p-5 mt-6 border border-zinc-800">
@@ -93,7 +93,7 @@ export default function ProofModel() {
               <span className="text-emerald-400">$ </span>
               <span className="text-zinc-100">ssot claim evaluate .</span>
               <p className="text-zinc-500 text-xs mt-3 border-t border-zinc-800 pt-3">
-                # Checks if all registered claims are backed by authentic evidence.
+                # Evaluates whether claims are supported by linked features, tests, and evidence.
               </p>
             </div>
           </div>
@@ -110,26 +110,26 @@ export default function ProofModel() {
                 <div className="absolute top-8 left-3.5 bottom-[-24px] w-px bg-zinc-300"></div>
                 <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white border border-zinc-300 text-zinc-900 font-mono text-xs font-bold shadow-sm">1</span>
                 <div>
-                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Claim Level</span>
-                  <span className="block text-sm font-semibold text-zinc-900 mt-1">"Robots.txt is secure and valid"</span>
-                  <p className="text-xs text-zinc-500 mt-1">Declares the expected posture.</p>
+                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Feature Scope</span>
+                  <span className="block text-sm font-semibold text-zinc-900 mt-1">feat:claim-tier-gates.t4-external-validation</span>
+                  <p className="text-xs text-zinc-500 mt-1">Scopes the implementable behavior and points to governing specs.</p>
                 </div>
               </div>
               <div className="relative flex items-start gap-4">
                 <div className="absolute top-8 left-3.5 bottom-[-24px] w-px bg-zinc-300"></div>
                 <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white border border-zinc-300 text-zinc-900 font-mono text-xs font-bold shadow-sm">2</span>
                 <div>
-                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Test Node</span>
-                  <span className="block text-sm font-semibold text-zinc-900 mt-1">pytest-seo-conformance suite</span>
-                  <p className="text-xs text-zinc-500 mt-1">Executes the required logic.</p>
+                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Test Producer</span>
+                  <span className="block text-sm font-semibold text-zinc-900 mt-1">tst:pytest.claim-tier-gates.unit</span>
+                  <p className="text-xs text-zinc-500 mt-1">Runs <code className="font-mono">python -m pytest tests/unit/test_claim_tier_gates.py -q</code>.</p>
                 </div>
               </div>
               <div className="relative flex items-start gap-4">
                 <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-white font-mono text-xs font-bold shadow-sm">3</span>
                 <div>
-                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Evidence Row</span>
-                  <span className="block text-sm font-mono font-medium text-zinc-800 mt-1">sha256:7f28...<span className="text-zinc-400"> (verification output)</span></span>
-                  <p className="text-xs text-zinc-500 mt-1">Cryptographic proof of test execution.</p>
+                  <span className="block font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-wider">Evidence-Owned Link</span>
+                  <span className="block text-sm font-mono font-medium text-zinc-800 mt-1">evd:t3.claim-tier-gates.t4-external-validation.proof-graph</span>
+                  <p className="text-xs text-zinc-500 mt-1">Links <code className="font-mono">test_ids</code> to producer tests and <code className="font-mono">claim_ids</code> to supported claims, with release context for T3.</p>
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function ProofModel() {
           <h2 className="font-sans text-2xl font-bold text-zinc-900 tracking-tight">
             The Five Conformance Tiers (T0 - T4)
           </h2>
-          <p className="mt-2 text-zinc-500 text-sm">Assurance language ceilings enforce honesty based on the highest tier achieved.</p>
+          <p className="mt-2 text-zinc-500 text-sm">Assurance language ceilings enforce honesty: tracked, directly works, robustly works, release certified, externally certified.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">

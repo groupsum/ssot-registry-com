@@ -1,5 +1,5 @@
 import { Code, Info } from 'lucide-react';
-import ProductPortfolio from '../components/ProductPortfolio';
+import PackagePortfolioMatrix from '../components/PackagePortfolioMatrix';
 
 export default function Packages() {
   return (
@@ -15,18 +15,18 @@ export default function Packages() {
         </p>
       </div>
 
-      {/* 1. Interactive Product Portfolio Matrix Section */}
+      {/* 1. Interactive Package Portfolio Matrix Section */}
       <div className="rounded-2xl border border-zinc-200 bg-zinc-50/50 p-6 sm:p-8 space-y-6">
         <div>
           <h2 className="font-sans text-xl font-bold tracking-tight text-zinc-900">
-            The Product Portfolio Matrix
+            The Package Portfolio Matrix
           </h2>
           <p className="mt-1 text-xs text-zinc-500">
             SSOT Registry is partitioned into micro-libraries for lightweight installations. Choose a package below to inspect its role and executable API samples in real-time.
           </p>
         </div>
 
-        <ProductPortfolio />
+        <PackagePortfolioMatrix />
       </div>
 
       {/* Advisory block */}
@@ -44,4 +44,3 @@ export default function Packages() {
     </div>
   );
 }
-

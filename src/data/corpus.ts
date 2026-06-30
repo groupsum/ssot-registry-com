@@ -186,7 +186,7 @@ This synchronizes standard guidelines, features, and claims directly into your l
     directAnswer = `SSOT Registry models ${subject.label} within the ${section.label} pipeline. It ensures that every aspect of ${subject.label} remains canonical, validated, and directly mapped to your core software-assurance goals.`;
     content = `
 ### Conceptual Integration of ${subject.label}
-In standard release environments, ${subject.label} is often scattered across distinct tool platforms—creating fragmented traces. Under SSOT Registry, ${subject.label} becomes a unified node in your local registry JSON.
+In standard release environments, ${subject.label} is often scattered across distinct tool platforms, creating fragmented traces. Under SSOT Registry, ${subject.label} becomes a unified node in your local registry JSON.
 
 ### Workflow and Verification Guidelines for ${audience.label}s
 To ensure 10/10 compliance and validation quality:
@@ -227,12 +227,12 @@ This approach guarantees that when a release manager reviews the release candida
 export const REGISTRY_STATS: RegistryStat[] = [
   { label: "ADRs", value: 90, description: "Architecture Decision Records tracked" },
   { label: "Specs", value: 99, description: "Normative requirement definitions" },
-  { label: "Features", value: 407, description: "Targetable capability units mapped" },
-  { label: "Tests", value: 355, description: "Executable verification test cases" },
-  { label: "Claims", value: 1376, description: "Asserted claims mapped across tiers" },
-  { label: "Evidence Rows", value: 642, description: "Concrete evidence rows linked" },
-  { label: "Releases", value: 20, description: "Total releases validated and stored" },
-  { label: "Boundaries", value: 27, description: "Frozen release-scopes declared" }
+  { label: "Features", value: 408, description: "Targetable capability units mapped" },
+  { label: "Tests", value: 359, description: "Executable verification test cases" },
+  { label: "Claims", value: 1380, description: "Asserted claims mapped across tiers" },
+  { label: "Evidence Rows", value: 645, description: "Concrete evidence rows linked" },
+  { label: "Releases", value: 22, description: "Total releases validated and stored" },
+  { label: "Boundaries", value: 29, description: "Frozen release-scopes declared" }
 ];
 
 export const WORKFLOWS = [
@@ -242,7 +242,8 @@ export const WORKFLOWS = [
     desc: "Establish clear technical decisions through ADRs and requirements through SPECs. Sync package-contracts and map them directly into feature boundaries.",
     steps: [
       { cmd: "ssot init .", desc: "Initialize a fresh local repository with a validated v0.8.0 registry." },
-      { cmd: "ssot pack sync . seo-aeo-aieo-governance-pack", desc: "Sync authoritative governance pack schemas into reserved ranges." },
+      { cmd: "ssot pack preflight . seo-aeo-aieo-governance-pack", desc: "Check governance pack ranges and source metadata before syncing." },
+      { cmd: "ssot pack sync . seo-aeo-aieo-governance-pack --trust --yes", desc: "Sync authoritative governance pack documents into reserved ranges." },
       { cmd: "ssot feature list .", desc: "List current features and map them back to SPEC references." }
     ]
   },
@@ -251,7 +252,7 @@ export const WORKFLOWS = [
     title: "2. Target & Freeze Boundaries",
     desc: "Prevent scope drift or sudden feature injections by freezing an active delivery boundary, securing a stable target list that developers will be judged against.",
     steps: [
-      { cmd: "ssot boundary freeze . --boundary-id boundary-v1.0", desc: "Freeze release scope, locking feature and profile targets against changes." }
+      { cmd: "ssot boundary freeze . --boundary-id bnd:all-t2-to-t3-2026-06-07", desc: "Freeze release scope, locking feature and profile targets against changes." }
     ]
   },
   {
@@ -259,10 +260,10 @@ export const WORKFLOWS = [
     title: "3. Evaluate Proof & Certify Release",
     desc: "Verify that claims are verified by executable test runs and backed by concrete evidence signatures. Run a check to certify release readiness.",
     steps: [
-      { cmd: "ssot test run .", desc: "Execute registered conformance tests to verify actual feature postures." },
+      { cmd: "ssot conformance run .", desc: "Execute registered conformance checks to verify actual feature postures." },
       { cmd: "ssot claim evaluate .", desc: "Assess claim-verification status across T0-T3 tiers." },
-      { cmd: "ssot evidence verify .", desc: "Validate that all evidence rows point to concrete cryptographic or log files." },
-      { cmd: "ssot release certify . --release-id rel-1.0.0", desc: "Run a fail-closed check to attest release-readiness." }
+      { cmd: "ssot evidence list .", desc: "Inspect evidence rows and their linked claims and tests." },
+      { cmd: "ssot release certify . --release-id rel:all-t2-to-t3-2026-06-07", desc: "Run a fail-closed check to attest release-readiness." }
     ]
   },
   {
@@ -270,9 +271,9 @@ export const WORKFLOWS = [
     title: "4. Promote & Publish Authority",
     desc: "Advance certified releases across environment gates and publish compiled, immutable reports, visual graph indexes, and discovery assets.",
     steps: [
-      { cmd: "ssot release promote . --env production", desc: "Promote certified candidate state into production registry database." },
-      { cmd: "ssot graph lineage .", desc: "Export self-contained lineage graphs for external review teams." },
-      { cmd: "ssot registry export . --format sqlite", desc: "Project the canonical JSON registry database as a relational SQLite file." }
+      { cmd: "ssot release promote . --release-id rel:all-t2-to-t3-2026-06-07", desc: "Promote certified candidate state through the registry release lifecycle." },
+      { cmd: "ssot graph lineage . --output-file lineage.html", desc: "Export self-contained lineage graphs for external review teams." },
+      { cmd: "ssot registry export . --output-format json", desc: "Project the canonical registry as a JSON export." }
     ]
   }
 ];
@@ -343,7 +344,7 @@ An AI-friendly directory of the SSOT Registry release-governance toolchain and e
           "priceCurrency": "USD"
         },
         "description": "Governed single source of truth for software assurance and release readiness.",
-        "softwareVersion": "0.2.24",
+        "softwareVersion": "0.2.26.dev1",
         "license": "https://opensource.org/licenses/Apache-2.0"
       },
       {
@@ -353,7 +354,7 @@ An AI-friendly directory of the SSOT Registry release-governance toolchain and e
         "name": "SSOT Registry Product Portfolio",
         "publisher": {
           "@type": "Organization",
-          "name": "SSOT Registry Open Source Group"
+          "name": "GSL"
         }
       }
     ]
