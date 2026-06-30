@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Terminal, CheckCircle, Code, Tag, ShieldCheck, FileText, 
   HelpCircle, MessageSquare, ArrowUpRight, Sparkles, History, 
-  User, Clock, ChevronRight, BookOpen, AlertCircle
+  User, Clock, ChevronRight, BookOpen, AlertCircle, ChevronDown, Braces
 } from 'lucide-react';
 import { CategoryType } from '../pages/RegistryBrowser';
 
@@ -11,12 +11,118 @@ interface RegistryItemDetailProps {
   setSelectedItemId: (id: string) => void;
 }
 
+function FormattedInline({ text }: { text: unknown }) {
+  const value = String(text || '');
+  const tokens = value.split(/(`[^`]+`|https?:\/\/[^\s)]+|\b(?:ADR|SPEC)-\d+\b|\b(?:adr|spc|feat|tst|evd|clm|bnd|rel):[A-Za-z0-9._:-]+\b)/g);
+
+  return (
+    <>
+      {tokens.map((token, index) => {
+        if (!token) return null;
+        if (token.startsWith('`') && token.endsWith('`')) {
+          return (
+            <code key={index} className="rounded bg-zinc-200/70 px-1 py-0.5 font-mono text-[0.92em] font-semibold text-zinc-900 ring-1 ring-zinc-300/60">
+              {token.slice(1, -1)}
+            </code>
+          );
+        }
+        if (/^https?:\/\//.test(token)) {
+          return (
+            <a key={index} href={token} target="_blank" rel="noreferrer" className="font-semibold text-sky-700 underline decoration-sky-300 underline-offset-2">
+              {token}
+            </a>
+          );
+        }
+        if (/^(?:ADR|SPEC)-\d+$/.test(token) || /^(?:adr|spc|feat|tst|evd|clm|bnd|rel):/.test(token)) {
+          return (
+            <span key={index} className="rounded bg-white px-1 py-0.5 font-mono text-[0.92em] font-bold text-zinc-800 ring-1 ring-zinc-200">
+              {token}
+            </span>
+          );
+        }
+        return <React.Fragment key={index}>{token}</React.Fragment>;
+      })}
+    </>
+  );
+}
+
+function FormattedTextBlock({ text, tone = 'neutral' }: { text: unknown; tone?: 'neutral' | 'decision' | 'body' }) {
+  const value = String(text || '').trim();
+  if (!value) {
+    return <p className="text-xs italic text-zinc-400">No body text recorded for this registry row.</p>;
+  }
+
+  const toneClass = tone === 'decision'
+    ? 'border-l-sky-500 bg-sky-50/70 text-sky-950'
+    : tone === 'body'
+    ? 'border-l-zinc-800 bg-zinc-50 text-zinc-700'
+    : 'border-l-zinc-300 bg-zinc-50/70 text-zinc-700';
+
+  return (
+    <div className={`space-y-2 rounded-lg border border-zinc-200 ${toneClass} border-l-4 p-4 text-xs leading-relaxed shadow-3xs`}>
+      {value.split(/\n{2,}/).map((paragraph, index) => {
+        const lines = paragraph.split('\n').filter(Boolean);
+        const isList = lines.every(line => /^\s*[-*]\s+/.test(line));
+        if (isList) {
+          return (
+            <ul key={index} className="list-disc space-y-1 pl-5">
+              {lines.map((line, lineIndex) => (
+                <li key={lineIndex}>
+                  <FormattedInline text={line.replace(/^\s*[-*]\s+/, '')} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        return (
+          <p key={index} className="whitespace-pre-wrap">
+            <FormattedInline text={paragraph} />
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+function JsonSyntax({ value }: { value: unknown }) {
+  const json = JSON.stringify(value, null, 2);
+  const tokens = json.split(/("(?:\\.|[^"\\])*"(?=\s*:)|"(?:\\.|[^"\\])*"|true|false|null|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|[{}\[\],:])/g);
+
+  return (
+    <pre className="whitespace-pre text-[11px] leading-relaxed">
+      {tokens.map((token, index) => {
+        if (!token) return null;
+        let className = 'text-zinc-300';
+        if (/^"(?:\\.|[^"\\])*"$/.test(token)) {
+          className = token.endsWith('"') && tokens[index + 1] === ':' ? 'text-sky-300' : 'text-emerald-300';
+        } else if (/^(true|false)$/.test(token)) {
+          className = 'text-violet-300';
+        } else if (token === 'null') {
+          className = 'text-zinc-500';
+        } else if (/^-?\d/.test(token)) {
+          className = 'text-amber-300';
+        } else if (/^[{}\[\]]$/.test(token)) {
+          className = 'text-zinc-100';
+        } else if (/^[,:]$/.test(token)) {
+          className = 'text-zinc-500';
+        }
+        return <span key={index} className={className}>{token}</span>;
+      })}
+    </pre>
+  );
+}
+
 export default function RegistryItemDetail({ activeItem, setSelectedItemId }: RegistryItemDetailProps) {
   // Local state for superseding proposal wizard (Closed CTA)
   const [wizardStep, setWizardStep] = useState<number>(0);
   const [supersedingTitle, setSupersedingTitle] = useState('');
   const [supersedingContext, setSupersedingContext] = useState('');
   const [showWizardFor, setShowWizardFor] = useState<string | null>(null);
+  const [sourceRowExpanded, setSourceRowExpanded] = useState(false);
+
+  useEffect(() => {
+    setSourceRowExpanded(false);
+  }, [activeItem.id]);
 
   const startSupersedingWizard = () => {
     setShowWizardFor(activeItem.id);
@@ -278,31 +384,23 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
               <div className="space-y-4 pt-4 border-t border-zinc-100">
                 <div>
                   <h4 className="font-sans text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5">Context & Background</h4>
-                  <div className="rounded-lg bg-zinc-50/50 p-4 border border-zinc-100">
-                    <p className="text-xs text-zinc-600 leading-relaxed font-semibold">{activeItem.data.context}</p>
-                  </div>
+                  <FormattedTextBlock text={activeItem.data.context} />
                 </div>
 
                 <div>
                   <h4 className="font-sans text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5">Technical Decision</h4>
-                  <div className="rounded-lg bg-zinc-50/50 p-4 border border-zinc-100">
-                    <p className="text-xs text-zinc-800 leading-relaxed font-bold">{activeItem.data.decision}</p>
-                  </div>
+                  <FormattedTextBlock text={activeItem.data.decision} tone="decision" />
                 </div>
 
                 <div>
                   <h4 className="font-sans text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5">Architecture Consequences</h4>
-                  <div className="rounded-lg bg-zinc-50/50 p-4 border border-zinc-100">
-                    <p className="text-xs text-zinc-600 leading-relaxed font-semibold">{activeItem.data.consequences}</p>
-                  </div>
+                  <FormattedTextBlock text={activeItem.data.consequences} />
                 </div>
 
                 {activeItem.data.body && (
                   <div>
                     <h4 className="font-sans text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1.5">Canonical ADR Body</h4>
-                    <div className="rounded-lg bg-zinc-950 p-4 border border-zinc-900 max-h-[360px] overflow-y-auto scrollbar-thin">
-                      <pre className="whitespace-pre-wrap text-xs text-zinc-200 leading-relaxed font-mono">{activeItem.data.body}</pre>
-                    </div>
+                    <FormattedTextBlock text={activeItem.data.body} tone="body" />
                   </div>
                 )}
               </div>
@@ -336,9 +434,7 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
               <div className="space-y-3 pt-3 border-t border-zinc-100">
                 <div>
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Normative Contract Rule</span>
-                  <div className="bg-zinc-50 p-3.5 rounded-lg border border-zinc-150 font-mono text-[11px] text-zinc-700">
-                    {activeItem.data.ruleDefinition}
-                  </div>
+                  <FormattedTextBlock text={activeItem.data.ruleDefinition} />
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Verification Command/Source</span>
@@ -349,14 +445,12 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Contract Description</span>
-                  <p className="text-xs text-zinc-600 leading-relaxed">{activeItem.data.description}</p>
+                  <FormattedTextBlock text={activeItem.data.description} />
                 </div>
                 {activeItem.data.body && (
                   <div>
                     <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Canonical SPEC Body</span>
-                    <div className="bg-zinc-950 p-4 rounded-lg font-mono text-[11px] text-zinc-200 overflow-y-auto max-h-[360px] scrollbar-thin">
-                      <pre className="whitespace-pre-wrap">{activeItem.data.body}</pre>
-                    </div>
+                    <FormattedTextBlock text={activeItem.data.body} tone="body" />
                   </div>
                 )}
               </div>
@@ -525,9 +619,35 @@ export default function RegistryItemDetail({ activeItem, setSelectedItemId }: Re
 
           {activeItem.category !== 'metadata' && (
             <div className="pt-4 border-t border-zinc-100">
-              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">Source Registry Row</span>
-              <div className="bg-zinc-950 p-4 rounded-lg font-mono text-[11px] text-emerald-400 overflow-x-auto max-h-[320px] scrollbar-thin border border-zinc-900">
-                <pre>{JSON.stringify(activeItem.data, null, 2)}</pre>
+              <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-3xs">
+                <button
+                  type="button"
+                  onClick={() => setSourceRowExpanded(value => !value)}
+                  className="flex w-full items-center justify-between gap-3 bg-zinc-50 px-3 py-2 text-left transition-colors hover:bg-zinc-100"
+                  aria-expanded={sourceRowExpanded}
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-zinc-900 text-zinc-100">
+                      <Braces className="h-3.5 w-3.5" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500">Source Registry Row</span>
+                      <span className="block truncate font-mono text-[11px] font-semibold text-zinc-800">{activeItem.id}</span>
+                    </span>
+                  </span>
+                  <span className="flex shrink-0 items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500">
+                    {sourceRowExpanded ? 'Hide JSON' : 'Show JSON'}
+                    <ChevronDown className={`h-4 w-4 transition-transform ${sourceRowExpanded ? 'rotate-180' : ''}`} />
+                  </span>
+                </button>
+
+                {sourceRowExpanded && (
+                  <div className="border-t border-zinc-800 bg-zinc-950">
+                    <div className="max-h-[320px] overflow-auto p-4 font-mono scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-950 hover:scrollbar-thumb-zinc-500">
+                      <JsonSyntax value={activeItem.data} />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

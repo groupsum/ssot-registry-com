@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Database, FileCode, FileText, Clipboard, Check } from 'lucide-react';
+import { Database, FileCode, Clipboard, Check } from 'lucide-react';
 import { SOT_REGISTRY_DATA } from '../data/registryData';
 import { useMdwrkJsonLd } from '../components/MdwrkMarkdownRenderer';
 import { buildJsonLdGraph, jsonLdGraph } from '@mdwrk/structured-data';
@@ -339,35 +339,12 @@ export default function RegistryBrowser() {
             toggleCategory={toggleCategory}
           />
 
-          {/* Right Column: Active Node Details & JSON-LD crawler sync validation */}
+          {/* Right Column: Active Node Details */}
           <div className="lg:col-span-3 space-y-6">
             <RegistryItemDetail
               activeItem={activeItem}
               setSelectedItemId={setSelectedItemId}
             />
-
-            {/* Page-level JSON-LD Metadata Output in its own card */}
-            <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-xs space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-100 pb-4 gap-4">
-                <div>
-                  <h3 className="font-sans text-sm font-black text-zinc-950 flex items-center gap-1.5">
-                    <FileText className="h-4.5 w-4.5 text-zinc-800" />
-                    Page JSON-LD Graph Node (SEO / Crawl Compliance)
-                  </h3>
-                  <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                    Each unique selected node in our registry dynamically syncs customized Schema.org structured metadata models in the head at runtime.
-                  </p>
-                </div>
-                <div className="shrink-0 flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 rounded-md px-2.5 py-1 text-xs font-mono font-bold text-emerald-700 shadow-2xs">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
-                  <span>Emitted & Head Synchronized</span>
-                </div>
-              </div>
-              
-              <div className="rounded-lg border border-zinc-900 bg-zinc-950 p-4 font-mono text-[11px] text-emerald-400 overflow-x-auto max-h-[220px] scrollbar-thin">
-                <pre>{JSON.stringify(dynamicJsonLd, null, 2)}</pre>
-              </div>
-            </div>
 
           </div>
 

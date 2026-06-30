@@ -94,7 +94,7 @@ export default function GovernancePackDetail() {
             <div className="flex-1">
               <h3 className="font-sans text-xs font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <FileCheck className="h-3.5 w-3.5 text-blue-500" />
-                Target Software Applications
+                SSOT Pack Commands
               </h3>
               <div className="flex flex-wrap gap-2">
                 {pack.softwareApplications.map((app, i) => (
@@ -107,7 +107,7 @@ export default function GovernancePackDetail() {
             <div className="flex-1">
               <h3 className="font-sans text-xs font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <ShieldCheck className="h-3.5 w-3.5 text-purple-500" />
-                Target Source Code
+                Package Coordinates
               </h3>
               <div className="flex flex-wrap gap-2">
                 {pack.softwareSourceCode.map((code, i) => (
@@ -202,7 +202,7 @@ export default function GovernancePackDetail() {
           <div className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm space-y-4">
             <h2 className="font-sans text-lg font-bold text-zinc-900 flex items-center gap-2 mb-4 pb-4 border-b border-zinc-100">
               <MessageSquare className="h-5 w-5 text-emerald-500" />
-              FAQ
+              Frequently Asked Questions
             </h2>
             <div className="space-y-6">
               {pack.questionsAndAnswers.map((qa, i) => (
