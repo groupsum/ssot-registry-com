@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
+import { buildJsonLdGraph } from "@mdwrk/structured-data";
 
 const publicDir = resolve("public");
 const distDir = resolve("dist");
@@ -55,3 +56,26 @@ for (const [artifact, routes] of Object.entries(routeAssertions)) {
     assert.match(sitemapBody, new RegExp(`<loc>${url}</loc>`));
   }
 }
+
+const registryGraph = buildJsonLdGraph(
+  {
+    product: {
+      name: "SSOT Registry",
+      canonicalUrl: "https://ssot-registry.com",
+      description: "The Single Source of Truth Registry documentation platform",
+    },
+  },
+  {
+    title: "Registry Browser",
+    description: "Explore the SSOT Registry.",
+    h1: "Registry Browser",
+    canonicalUrl: "https://ssot-registry.com/registry-browser",
+    breadcrumbs: [{ label: "Home", href: "/" }],
+    faq: [],
+  },
+);
+
+assert.ok(
+  !registryGraph.some((node) => node["@type"] === "SoftwareApplication" || node["@type"] === "Product"),
+  "default site graphs must not infer Google commercial entities from site.product",
+);
