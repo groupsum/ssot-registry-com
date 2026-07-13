@@ -1,3 +1,5 @@
+[![Managed with npmctl](https://img.shields.io/badge/managed%20with-npmctl-2f6f4e.svg)](https://npmctl.com)
+
 # ssot-registry.com
 
 Product portfolio website for [ssot-registry.com](https://ssot-registry.com).
