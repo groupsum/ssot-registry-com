@@ -6,6 +6,8 @@ import { buildJsonLdGraph } from "@mdwrk/structured-data";
 const publicDir = resolve("public");
 const distDir = resolve("dist");
 const requiredArtifacts = [
+  "favicon.svg",
+  "og-image.png",
   "sitemap.xml",
   "sitemap-core.xml",
   "sitemap-workflows.xml",
@@ -27,6 +29,18 @@ for (const artifact of requiredArtifacts) {
   assert.ok(statSync(publicPath).size > 0, `${artifact} public artifact must be non-empty`);
   assert.ok(statSync(distPath).size > 0, `${artifact} dist artifact must be non-empty`);
 }
+
+const builtIndex = readFileSync(resolve(distDir, "index.html"), "utf8");
+assert.match(builtIndex, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml"\s*\/>/);
+assert.match(builtIndex, /<link rel="canonical" href="https:\/\/ssot-registry\.com\/"\s*\/>/);
+assert.match(builtIndex, /<meta property="og:image" content="https:\/\/ssot-registry\.com\/og-image\.png"\s*\/>/);
+assert.match(builtIndex, /<meta property="og:image:width" content="1200"\s*\/>/);
+assert.match(builtIndex, /<meta property="og:image:height" content="630"\s*\/>/);
+assert.match(builtIndex, /<meta name="twitter:card" content="summary_large_image"\s*\/>/);
+
+const ogImage = readFileSync(resolve(publicDir, "og-image.png"));
+assert.equal(ogImage.readUInt32BE(16), 1200, "Open Graph image must be 1200px wide");
+assert.equal(ogImage.readUInt32BE(20), 630, "Open Graph image must be 630px tall");
 
 const sitemap = readFileSync(resolve(publicDir, "sitemap.xml"), "utf8");
 const robots = readFileSync(resolve(publicDir, "robots.txt"), "utf8");
