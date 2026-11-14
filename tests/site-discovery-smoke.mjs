@@ -7,6 +7,7 @@ const publicDir = resolve("public");
 const distDir = resolve("dist");
 const requiredArtifacts = [
   "favicon.svg",
+  "ssot-registry-mark.png",
   "og-image.png",
   "sitemap.xml",
   "sitemap-core.xml",

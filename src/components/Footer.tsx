@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, MessageSquare, ShieldCheck, Terminal } from 'lucide-react';
+import { Github, MessageSquare, Terminal } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -10,9 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="space-y-6 md:col-span-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 text-white shadow-sm ring-1 ring-zinc-800">
-                <ShieldCheck className="h-5 w-5" />
-              </span>
+              <img src="/favicon.svg" alt="" width={40} height={40} className="h-10 w-10 shrink-0" />
               <span className="font-sans text-lg font-black tracking-tight text-zinc-900">
                 SSOT Registry
               </span>
