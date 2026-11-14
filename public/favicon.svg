@@ -1,30 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">SSOT Registry</title>
+  <title id="title">SSOT Registry S lattice</title>
   <rect width="64" height="64" rx="12" fill="#18181b"/>
   <g stroke="#8bd3b7" stroke-width="0.95" stroke-linejoin="round">
-    <path d="M32 10.4L39.6 14.55L32 18.7L24.4 14.55Z" fill="#2c6a57"/>
-    <path d="M32 18.7L39.6 22.85L39.6 31.15L32 27Z" fill="#143c36"/>
-    <path d="M47.2 18.7L39.6 22.85L39.6 31.15L47.2 27Z" fill="#1b5145"/>
-    <path d="M39.6 14.55L47.2 18.7L39.6 22.85L32 18.7Z" fill="#2c6a57"/>
-    <path d="M16.8 18.7L24.4 22.85L24.4 31.15L16.8 27Z" fill="#143c36"/>
-    <path d="M32 18.7L24.4 22.85L24.4 31.15L32 27Z" fill="#1b5145"/>
-    <path d="M24.4 14.55L32 18.7L24.4 22.85L16.8 18.7Z" fill="#2c6a57"/>
+    <path d="M32 18.7L39.6 22.85L32 27L24.4 22.85Z" fill="#102822"/>
+    <path d="M39.6 14.55L47.2 18.7L39.6 22.85L32 18.7Z" fill="#528c75"/>
+    <path d="M24.4 14.55L32 18.7L24.4 22.85L16.8 18.7Z" fill="#528c75"/>
     <path d="M54.8 31.15L47.2 35.3L47.2 43.6L54.8 39.45Z" fill="#1b5145"/>
-    <path d="M47.2 27L54.8 31.15L47.2 35.3L39.6 31.15Z" fill="#214f46"/>
-    <path d="M32 27L39.6 31.15L32 35.3L24.4 31.15Z" fill="#214f46"/>
+    <path d="M54.8 22.85L47.2 27L47.2 35.3L54.8 31.15Z" fill="#1b5145"/>
+    <path d="M47.2 18.7L54.8 22.85L47.2 27L39.6 22.85Z" fill="#528c75"/>
+    <path d="M32 18.7L39.6 22.85L32 27L24.4 22.85Z" fill="#528c75"/>
     <path d="M9.2 31.15L16.8 35.3L16.8 43.6L9.2 39.45Z" fill="#143c36"/>
-    <path d="M16.8 27L24.4 31.15L16.8 35.3L9.2 31.15Z" fill="#214f46"/>
+    <path d="M9.2 22.85L16.8 27L16.8 35.3L9.2 31.15Z" fill="#143c36"/>
+    <path d="M16.8 18.7L24.4 22.85L16.8 27L9.2 22.85Z" fill="#528c75"/>
     <path d="M47.2 35.3L39.6 39.45L39.6 47.75L47.2 43.6Z" fill="#1b5145"/>
     <path d="M32 27L39.6 31.15L39.6 39.45L32 35.3Z" fill="#143c36"/>
     <path d="M47.2 27L39.6 31.15L39.6 39.45L47.2 35.3Z" fill="#1b5145"/>
-    <path d="M39.6 22.85L47.2 27L39.6 31.15L32 27Z" fill="#2c6a57"/>
+    <path d="M39.6 22.85L47.2 27L39.6 31.15L32 27Z" fill="#528c75"/>
     <path d="M16.8 35.3L24.4 39.45L24.4 47.75L16.8 43.6Z" fill="#143c36"/>
     <path d="M16.8 27L24.4 31.15L24.4 39.45L16.8 35.3Z" fill="#143c36"/>
     <path d="M32 27L24.4 31.15L24.4 39.45L32 35.3Z" fill="#1b5145"/>
-    <path d="M24.4 22.85L32 27L24.4 31.15L16.8 27Z" fill="#2c6a57"/>
+    <path d="M24.4 22.85L32 27L24.4 31.15L16.8 27Z" fill="#528c75"/>
     <path d="M24.4 39.45L32 43.6L32 51.9L24.4 47.75Z" fill="#143c36"/>
     <path d="M39.6 39.45L32 43.6L32 51.9L39.6 47.75Z" fill="#1b5145"/>
-    <path d="M32 35.3L39.6 39.45L32 43.6L24.4 39.45Z" fill="#214f46"/>
+    <path d="M32 35.3L39.6 39.45L32 43.6L24.4 39.45Z" fill="#102822"/>
   </g>
-  <path d="M9.2 31.15L16.8 35.3L16.8 27L24.4 31.15L24.4 39.45L32 43.6L39.6 39.45L39.6 31.15L47.2 27" fill="none" stroke="#c4ffda" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M39.6 14.55L54.8 22.85L39.6 31.15L32 27L24.4 31.15L9.2 22.85L24.4 14.55" fill="none" stroke="#c4ffda" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
