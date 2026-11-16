@@ -21,7 +21,7 @@ export default function Navbar() {
         {/* Brand Logo */}
         <div className="flex items-center gap-2">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/favicon.svg" alt="" width={40} height={40} className="h-10 w-10 shrink-0" />
+            <img src="/ssot-registry-mark.png" alt="" width={40} height={40} className="h-10 w-10 shrink-0" />
             <div className="flex flex-col">
               <span className="font-sans text-lg font-bold tracking-tight text-zinc-900">
                 SSOT Registry

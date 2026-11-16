@@ -6,7 +6,7 @@ import { buildJsonLdGraph } from "@mdwrk/structured-data";
 const publicDir = resolve("public");
 const distDir = resolve("dist");
 const requiredArtifacts = [
-  "favicon.svg",
+  "favicon.png",
   "ssot-registry-mark.png",
   "og-image.png",
   "sitemap.xml",
@@ -32,7 +32,7 @@ for (const artifact of requiredArtifacts) {
 }
 
 const builtIndex = readFileSync(resolve(distDir, "index.html"), "utf8");
-assert.match(builtIndex, /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml"\s*\/>/);
+assert.match(builtIndex, /<link rel="icon" href="\/favicon\.png" type="image\/png" sizes="48x48"\s*\/>/);
 assert.match(builtIndex, /<link rel="canonical" href="https:\/\/ssot-registry\.com\/"\s*\/>/);
 assert.match(builtIndex, /<meta property="og:image" content="https:\/\/ssot-registry\.com\/og-image\.png"\s*\/>/);
 assert.match(builtIndex, /<meta property="og:image:width" content="1200"\s*\/>/);
