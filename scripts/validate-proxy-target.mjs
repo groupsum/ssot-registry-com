@@ -5,15 +5,17 @@ const proxy = fs.readFileSync("desired-state/proxy.yaml", "utf8");
 const composeLines = compose.split(/\r?\n/);
 
 if (composeLines.some((line) => /^\s*ports:\s*(?:#.*)?$/.test(line))) {
-  throw new Error('docker-compose.yaml must not publish host ports; use expose: ["80"] behind Nginx Proxy Manager');
+  throw new Error('docker-compose.yaml must not publish host ports; use expose: ["80"] behind Portwyrm');
 }
 
 if (!composeLines.some((line) => /^\s*expose:\s*(?:#.*)?$/.test(line)) || !composeLines.some((line) => /^\s*-\s*["']?80["']?\s*(?:#.*)?$/.test(line))) {
   throw new Error("docker-compose.yaml must expose port 80 to the Docker network");
 }
 
-if (!/^\s{4}networks:\s*(?:#.*)?$/m.test(compose) || !/^\s{6}dockerwp:\s*(?:#.*)?$/m.test(compose) || !/^\s{4}name:\s*dockerwp\s*(?:#.*)?$/m.test(compose) || !/^\s{4}external:\s*true\s*(?:#.*)?$/m.test(compose)) {
-  throw new Error("docker-compose.yaml must attach the site service to the external dockerwp network");
+const attachedToEdge = /^ {4}networks:[^\S\r\n]*(?:#.*)?\r?\n(?: {6,}[^\r\n]+\r?\n)*? {6}portwyrm-edge:[^\S\r\n]*(?:#.*)?$/m.test(compose);
+const edgeDefinition = compose.match(/^ {2}portwyrm-edge:[^\S\r\n]*(?:#.*)?\r?\n((?: {4,}[^\r\n]+(?:\r?\n|$))*)/m)?.[1] ?? "";
+if (!attachedToEdge || !/^ {4}name:\s*portwyrm-edge\s*$/m.test(edgeDefinition) || !/^ {4}external:\s*true\s*$/m.test(edgeDefinition)) {
+  throw new Error("docker-compose.yaml must attach the site service to the external portwyrm-edge network");
 }
 
 const containerMatch = compose.match(/^\s*container_name:\s*([^\r\n#]+)/m);
@@ -37,4 +39,4 @@ for (const forwardHost of forwardMatches) {
   }
 }
 
-console.log(`proxy target ok: ${containerName} on dockerwp with exposed port 80`);
+console.log(`proxy target ok: ${containerName} on portwyrm-edge with exposed port 80`);
